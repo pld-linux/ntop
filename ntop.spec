@@ -1,12 +1,15 @@
+# TODO:
+# there is a problem with --localstatedir=%{_var}/lib/%{name} (not building)
+#
 Summary:	Network monitoring tool
 Summary(pl):	Narzêdzie do monitorowania sieci
 Name:		ntop
-Version:	3.0
-Release:	2
+Version:	3.1
+Release:	0.1
 License:	GPL
 Group:		Networking
 Source0:	http://dl.sourceforge.net/ntop/%{name}-%{version}.tgz
-# Source0-md5:	1ec6055c75f1acbb5d5600492481ef85
+# Source0-md5:	1c9b4097c2e464b84f2fe8f6626d2b06
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Patch1:		%{name}-plugins_makefile.patch
@@ -48,7 +51,7 @@ ntop to narzêdzie, które pokazuje u¿ycie sieci w podobny sposób jak
 robi to popularna uniksowa komenda top.
 
 %prep
-%setup -q
+%setup -q -n %{name}
 %patch1 -p1
 %patch2 -p1
 
