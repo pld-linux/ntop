@@ -1,4 +1,4 @@
-%define	snap	02-10-03
+%define	snap	03-02-13
 Summary:	Network monitoring tool
 Summary(pl):	Narzêdzie do monitorowania sieci
 Name:		ntop
@@ -22,7 +22,7 @@ BuildRequires:	libtool
 BuildRequires:	ncurses-devel >= 5.2
 BuildRequires:	openssl-devel >= 0.9.7
 BuildRequires:	readline-devel >= 4.2
-BuildRequires:	ucd-snmp-devel
+BuildRequires:	net-snmp-devel
 BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -36,7 +36,7 @@ robi to popularna Unixowa komenda top.
 
 %prep
 %setup -q -n %{name}-current
-%patch0 -p1
+#%%patch0 -p1
 cd %{name}*
 %patch2 -p1
 cd ../gdchart*
@@ -63,8 +63,15 @@ cd ../%{name}*
 	--with-gdchart-root=`pwd`/../gdchart0.94c \
 	--enable-tcpwrap \
 	--with-gnu-ld \
+	--localstatedir=%{_var}/lib/%{name} || true
+
+%configure \
+	--with-ossl-root=%{_prefix} \
+	--with-gdchart-root=`pwd`/../gdchart0.94c \
+	--enable-tcpwrap \
+	--with-gnu-ld \
 	--localstatedir=%{_var}/lib/%{name}
-	
+
 
 %{__make}
 cd plugins
@@ -78,7 +85,7 @@ install -d	$RPM_BUILD_ROOT%{_var}/lib/%{name}
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-mv $RPM_BUILD_ROOT%{_bindir}/*.pem $RPM_BUILD_ROOT%{_datadir}/%{name}
+#mv $RPM_BUILD_ROOT%{_bindir}/*.pem $RPM_BUILD_ROOT%{_datadir}/%{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
