@@ -126,7 +126,7 @@ else
         /usr/sbin/useradd -u 120 -r -d /var/lib/ntop -s /bin/false -c "ntop User" -g ntop ntop 1>&2
 fi
 
-%post   
+%post
 /sbin/ldconfig
 /sbin/chkconfig --add ntop
 if [ -f /var/lock/subsys/ntop ]; then
@@ -143,7 +143,7 @@ if [ "$1" = "0" ]; then
         /sbin/chkconfig --del ntop
 fi
 
-%postun 
+%postun
 /sbin/ldconfig
 if [ "$1" = "0" ]; then
         /usr/sbin/userdel ntop
@@ -152,7 +152,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc ntop/AUTHORS ntop/NEWS ntop/README ntop/THANKS 
+%doc ntop/AUTHORS ntop/NEWS ntop/README ntop/THANKS
 #ntop/docs/1STRUN.TXT ntop/docs/FAQ
 %dir %{_var}/lib/%{name}
 %attr(755,root,root) %{_bindir}/*
