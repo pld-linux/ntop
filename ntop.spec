@@ -68,7 +68,7 @@ aclocal
 cd ../%{name}*
 mv -f acinclude.m4.in acinclude.m4
 rm -f missing
-#libtoolize --copy --force
+#%{__libtoolize}
 aclocal
 %{__autoconf}
 %{__automake}
@@ -77,7 +77,7 @@ aclocal
 	--with-ossl-root=%{_prefix} \
 	--enable-tcpwrap \
 	--with-gnu-ld \
-	--localstatedir=%{_var}/%{nane}
+	--localstatedir=%{_var}/lib/%{name}
 	
 
 %{__make}
@@ -87,7 +87,7 @@ cd plugins
 %install
 rm -rf $RPM_BUILD_ROOT
 cd %{name}*
-install -d	$RPM_BUILD_ROOT%{_var}/%{name}
+install -d	$RPM_BUILD_ROOT%{_var}/lib/%{name}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -103,7 +103,7 @@ mv $RPM_BUILD_ROOT%{_bindir}/*.pem $RPM_BUILD_ROOT%{_datadir}/%{name}
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS NEWS README THANKS
-%dir %{_var}/%{name}
+%dir %{_var}/lib/%{name}
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_libdir}/lib*.so
 %attr(755,root,root) %{_libdir}/lib*.la
