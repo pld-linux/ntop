@@ -10,6 +10,7 @@ Source0:	http://snapshot.ntop.org/tgz/%{name}-%{version}.tgz
 # Source0-md5:	4586e4173fcab64d2394502603fc73aa
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
+Source3:	%{name}.conf
 Patch0:		%{name}-acam.patch
 Patch1:		%{name}-externallib.patch
 Patch2:		%{name}-perl.patch
@@ -92,6 +93,7 @@ install -d	$RPM_BUILD_ROOT{%{_var}/lib/%{name},/etc/{rc.d/init.d,sysconfig}}
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/ntop
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/ntop
+install %{SOURCE3} $RPM_BUILD_ROOT/etc/ntop.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -135,7 +137,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc ntop/AUTHORS ntop/NEWS ntop/README ntop/THANKS
+%doc ntop/AUTHORS ntop/NEWS ntop/README ntop/THANKS ntop/docs/1STRUN.TXT ntop/docs/FAQ
 %dir %{_var}/lib/%{name}
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_libdir}/lib*
@@ -148,3 +150,4 @@ fi
 %{_mandir}/man*/*
 %attr(755,root,root) /etc/rc.d/init.d/ntop
 %attr(644,root,root) /etc/sysconfig/ntop
+%attr(644,ntop,ntop) /etc/ntop.conf
