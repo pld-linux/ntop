@@ -157,11 +157,9 @@ fi
 %dir %{_var}/lib/%{name}
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_libdir}/lib*
-#%attr(755,root,root) /usr/share/ntop/*
 %attr(755,root,root) %{_datadir}/%{name}
 #%%{_libdir}/lib*.la
-#%dir %{_libdir}/%{name}
-#%dir %{_libdir}/%{name}/plugins
+%dir %{_libdir}/%{name}
 %attr(755,root,root) %{_libdir}/%{name}/plugins
 %{_mandir}/man*/*
 %attr(754,root,root) /etc/rc.d/init.d/ntop
