@@ -1,18 +1,47 @@
---- Makefile.am.orig	Mon Mar 25 22:11:50 2002
-+++ Makefile.am	Mon Mar 25 22:27:25 2002
-@@ -78,27 +78,15 @@
+--- Makefile.am	Tue Mar 26 01:26:33 2002
++++ Makefile.am.new	Tue Mar 26 01:28:27 2002
+@@ -51,22 +51,22 @@
+ #		  librmonPlugin.la libwapPlugin.la
+ 
+ libicmpPlugin_la_SOURCES = icmpPlugin.c
+-libicmpPlugin_la_LDFLAGS = -shared -version-info @NTOP_VERSION_INFO@ @DYN_FLAGS@
++libicmpPlugin_la_LDFLAGS = -shared @DYN_FLAGS@
+ 
+ libsflowPlugin_la_SOURCES = sflowPlugin.c
+-libsflowPlugin_la_LDFLAGS = -shared -version-info @NTOP_VERSION_INFO@ @DYN_FLAGS@
++libsflowPlugin_la_LDFLAGS = -shared @DYN_FLAGS@
+ 
+ liblastSeenPlugin_la_SOURCES = lastSeenPlugin.c
+-liblastSeenPlugin_la_LDFLAGS = -shared -version-info @NTOP_VERSION_INFO@ @DYN_FLAGS@
++liblastSeenPlugin_la_LDFLAGS = -shared @DYN_FLAGS@
+ 
+ libnfsPlugin_la_SOURCES = nfsPlugin.c
+-libnfsPlugin_la_LDFLAGS = -shared -version-info @NTOP_VERSION_INFO@ @DYN_FLAGS@
++libnfsPlugin_la_LDFLAGS = -shared @DYN_FLAGS@
+ 
+ #librmonPlugin_la_SOURCES = rmonPlugin.c rmon.h
+-#librmonPlugin_la_LDFLAGS = @SNMPLIBS@ -shared -version-info @NTOP_VERSION_INFO@ @DYN_FLAGS@
++#librmonPlugin_la_LDFLAGS = @SNMPLIBS@ -shared @DYN_FLAGS@
+ 
+ #libwapPlugin_la_SOURCES = wapPlugin.c
+-#libwapPlugin_la_LDFLAGS = -shared -version-info @NTOP_VERSION_INFO@ @DYN_FLAGS@
++#libwapPlugin_la_LDFLAGS = -shared @DYN_FLAGS@
+ 
+ 
+ #
+@@ -78,27 +78,17 @@
  .libs/libicmpPlugin.so@SO_VERSION_PATCH@:
  	cc -bundle -flat_namespace -undefined suppress -o .libs/libicmpPlugin.so@SO_VERSION_PATCH@ icmpPlugin.o
  
 -icmpPlugin.so: .libs/libicmpPlugin.so@SO_VERSION_PATCH@
 -	@ln -s .libs/libicmpPlugin.so icmpPlugin.so
--
+ 
  .libs/libsflowPlugin.so@SO_VERSION_PATCH@:
  	cc -bundle -flat_namespace -undefined suppress -o .libs/libsflowPlugin.so@SO_VERSION_PATCH@ sflowPlugin.o
  
 -sflowPlugin.so: .libs/libsflowPlugin.so@SO_VERSION_PATCH@
 -	@ln -s .libs/libsflowPlugin.so sflowPlugin.so
--
+ 
  .libs/liblastSeenPlugin.so@SO_VERSION_PATCH@:
  	cc -bundle -flat_namespace -undefined suppress -o .libs/liblastSeenPlugin.so@SO_VERSION_PATCH@ lastSeenPlugin.o
  
