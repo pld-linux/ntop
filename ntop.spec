@@ -10,9 +10,11 @@ Source0:	http://dl.sourceforge.net/ntop/%{name}-%{version}.tgz
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Source3:	%{name}.conf
+Patch0:		%{name}-rrd.patch
+Patch1:		%{name}-opt.patch
 URL:		http://www.ntop.org/
 BuildRequires:	autoconf >= 2.52
-BuildRequires:	automake
+BuildRequires:	automake >= 1.6
 BuildRequires:	gd-devel >= 2.0.1
 BuildRequires:	gdbm-devel >= 1.8.3
 BuildRequires:	libpcap-devel
@@ -23,6 +25,7 @@ BuildRequires:	libtool
 BuildRequires:	ncurses-devel >= 5.2
 BuildRequires:	openssl-devel >= 0.9.7c
 BuildRequires:	readline-devel >= 4.2
+BuildRequires:	rrdtool-devel >= 1.1.0
 BuildRequires:	zlib-devel
 PreReq:		rc-scripts
 Requires(pre):	/usr/bin/getgid
@@ -35,6 +38,8 @@ Requires(postun):	/usr/sbin/groupdel
 Requires(postun):	/usr/sbin/userdel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+%define		_localstatedir		%{_var}/lib/%{name}
+
 %description
 ntop is a tool that shows the network usage, similar to what the
 popular top Unix command does.
@@ -45,26 +50,28 @@ robi to popularna Unixowa komenda top.
 
 %prep
 %setup -q
+%patch0 -p1
+%patch1 -p1
 
-#cp -f acinclude.m4.ntop acinclude.m4
+cp -f acinclude.m4.ntop acinclude.m4
 
 %build
-#%{__libtoolize}
-#%{__aclocal}
-#%{__autoconf}
-#%{__automake}
+%{__libtoolize}
+%{__aclocal}
+%{__autoconf}
+%{__automake}
 %configure \
-	--with-ossl-root=%{_prefix} \
+	--disable-static \
+	--enable-i18n \
 	--enable-tcpwrap \
 	--with-gnu-ld \
-	--enable-i18n \
-	--localstatedir=%{_var}/lib/%{name}
+	--with-ossl-root=/usr
 
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_var}/lib/%{name},/etc/{rc.d/init.d,sysconfig}}
+install -d $RPM_BUILD_ROOT{%{_var}/lib/%{name}/rrd,/etc/{rc.d/init.d,sysconfig}}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -73,7 +80,12 @@ install -d $RPM_BUILD_ROOT{%{_var}/lib/%{name},/etc/{rc.d/init.d,sysconfig}}
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/ntop
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/ntop
-install %{SOURCE3} $RPM_BUILD_ROOT/etc/ntop.conf
+install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/ntop.conf
+
+# these files belong to %{_libdir}/ntop/plugins
+rm -f $RPM_BUILD_ROOT%{_libdir}/lib*Plugin*
+# useless - there is no public headers now
+rm -f $RPM_BUILD_ROOT%{_libdir}/libntop{,report}.{la,so}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -122,16 +134,15 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS NEWS README THANKS 
-#docs/1STRUN.TXT docs/FAQ
-%dir %{_var}/lib/%{name}
+%doc AUTHORS NEWS README THANKS docs/{1STRUN.txt,FAQ}
 %attr(755,root,root) %{_bindir}/*
-%attr(755,root,root) %{_libdir}/lib*
+%attr(755,root,root) %{_libdir}/lib*.so
 %attr(755,root,root) %{_datadir}/%{name}
-#%%{_libdir}/lib*.la
 %dir %{_libdir}/%{name}
 %attr(755,root,root) %{_libdir}/%{name}/plugins
+%attr(750,root,ntop) %dir %{_var}/lib/%{name}
+%attr(770,root,ntop) %dir %{_var}/lib/%{name}/rrd
 %{_mandir}/man*/*
 %attr(754,root,root) /etc/rc.d/init.d/ntop
 %attr(640,root,root) /etc/sysconfig/ntop
-%attr(644,ntop,ntop) %config(noreplace) %verify(not size mtime md5) /etc/ntop.conf
+%attr(660,root,ntop) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/ntop.conf
