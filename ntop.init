@@ -26,6 +26,11 @@ else
 	exit 0
 fi
 
+if [ -z "$NTOP_DIR" ]; then
+	nls "NTOP_DIR not set in /etc/sysconfig/ntop"
+	exit 6
+fi
+
 RETVAL=0
 # See how we were called.
 case "$1" in
@@ -34,16 +39,15 @@ case "$1" in
 	if [ ! -f "$NTOP_DIR/addressQueue.db" ]; then
 		nls "ntop is not initialized. Try \"%s init\" before start." "$0"
 		echo ""
-		nls "after setting password please ^C, to stop the daemon"
+		nls "After setting password please press ^C to stop the daemon."
 		exit 6
 	fi
 
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/ntop ]; then
 		msg_starting ntop
-		ntop -d -P $NTOP_DIR -i $NTOP_IFACE > /dev/null 2>&1
+		daemon ntop -d -P $NTOP_DIR @/etc/ntop.conf
 		RETVAL=$?
-		[ $RETVAL -eq 0 ] && ok || fail
 		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/ntop
 	else
 		msg_already_running ntop
@@ -74,7 +78,7 @@ case "$1" in
 	fi
 	;;
   init)
-	ntop -P $NTOP_DIR -i $NTOP_IFACE
+	ntop -P $NTOP_DIR @/etc/ntop.conf
 	;;
   status)
 	status ntop
