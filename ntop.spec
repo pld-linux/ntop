@@ -7,6 +7,7 @@ Release:	0.1
 License:	GPL
 Group:		Networking
 Source0:	http://snapshot.ntop.org/tgz/%{name}-%{version}.tgz
+# Source0-md5:	4586e4173fcab64d2394502603fc73aa
 Patch0:		%{name}-acam.patch
 Patch1:		%{name}-externallib.patch
 Patch2:		%{name}-perl.patch
