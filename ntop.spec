@@ -83,6 +83,7 @@ cd ../%{name}*
 	--with-gdchart-root=`pwd`/../gdchart0.94c \
 	--enable-tcpwrap \
 	--with-gnu-ld \
+	--enable-i18n \
 	--localstatedir=%{_var}/lib/%{name}
 
 
@@ -151,7 +152,8 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc ntop/AUTHORS ntop/NEWS ntop/README ntop/THANKS ntop/docs/1STRUN.TXT ntop/docs/FAQ
+%doc ntop/AUTHORS ntop/NEWS ntop/README ntop/THANKS 
+#ntop/docs/1STRUN.TXT ntop/docs/FAQ
 %dir %{_var}/lib/%{name}
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_libdir}/lib*
