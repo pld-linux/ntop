@@ -9,7 +9,6 @@ Group:		Networking
 Group(de):	Netzwerkwesen
 Group(pl):	Sieciowe
 Source0:	http://snapshot.ntop.org/tgz/%{name}-%{snap}.tgz
-Source1:	%{name}-acinclude.m4
 Patch0:		%{name}-configure.patch
 Patch1:		%{name}-externallib.patch
 Patch2:		%{name}-perl.patch
@@ -56,11 +55,11 @@ autoconf
 %{__make}
 
 cd ../%{name}*
-install %{SOURCE1} acinclude.m4
+mv -f acinclude.m4.in acinclude.m4
 libtoolize --copy --force
 aclocal
 autoconf
-automake -a -c
+automake -a -c -i
 %configure \
 	--with-gdchart-root=../gdchart0.94c \
 	--with-ossl-root=%{_prefix} \
