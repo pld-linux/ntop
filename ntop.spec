@@ -24,16 +24,19 @@ BuildRequires:	libtool
 BuildRequires:	ncurses-devel >= 5.2
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	readline-devel >= 4.2
+BuildRequires:	rpmbuild(macros) >= 1.159
 BuildRequires:	zlib-devel
 PreReq:		rc-scripts
-Requires(pre):	/usr/bin/getgid
 Requires(pre):	/bin/id
+Requires(pre):	/usr/bin/getgid
 Requires(pre):	/usr/sbin/groupadd
 Requires(pre):	/usr/sbin/useradd
 Requires(post,preun):	/sbin/chkconfig
 Requires(post,postun):	/sbin/ldconfig
 Requires(postun):	/usr/sbin/groupdel
 Requires(postun):	/usr/sbin/userdel
+Provides:	group(ntop)
+Provides:	user(ntop)
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -95,21 +98,22 @@ rm $RPM_BUILD_ROOT%{_libdir}/*.a
 rm -rf $RPM_BUILD_ROOT
 
 %pre
-if [ -n "`getgid ntop`" ]; then
-	if [ "`getgid ntop`" != "120" ]; then
+if [ -n "`/usr/bin/getgid ntop`" ]; then
+	if [ "`/usr/bin/getgid ntop`" != "120" ]; then
 		echo "Error: group ntop doesn't have gid=120. Correct this before installing ntop." 1>&2
 		exit 1
 	fi
 else
-	/usr/sbin/groupadd -g 120 -r -f ntop
+	/usr/sbin/groupadd -g 120 ntop
 fi
-if [ -n "`id -u ntop 2>/dev/null`" ]; then
-	if [ "`id -u ntop`" != "120" ]; then
+if [ -n "`/bin/id -u ntop 2>/dev/null`" ]; then
+	if [ "`/bin/id -u ntop`" != "120" ]; then
 		echo "Error: user ntop doesn't have uid=120. Correct this before installing ntop." 1>&2
 		exit 1
 	fi
 else
-	/usr/sbin/useradd -u 120 -r -d /var/lib/ntop -s /bin/false -c "ntop User" -g ntop ntop 1>&2
+	/usr/sbin/useradd -u 120 -d /var/lib/ntop -s /bin/false \
+		-c "ntop User" -g ntop ntop 1>&2
 fi
 
 %post
@@ -132,8 +136,8 @@ fi
 %postun
 /sbin/ldconfig
 if [ "$1" = "0" ]; then
-	/usr/sbin/userdel ntop
-	/usr/sbin/groupdel ntop
+	%userremove ntop
+	%groupremove ntop
 fi
 
 %files
