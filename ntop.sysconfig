@@ -1,4 +1,4 @@
 # ntop file set
 NTOP_DIR="/var/lib/ntop/"
-#NTOP_IFACE="eth0"
+NTOP_IFACE="eth0"
 
