@@ -5,6 +5,7 @@
 #  - paths wrong somewhere /var/lib/ntop/ntop is expected (should be without last path component)
 #  - /var/lib/ntop/* should be %ghost
 #  - .la files should be in -devel
+#  - ntop apperars to be daemon, so it should be in _sbindir not in _bindir
 #
 Summary:	Network monitoring tool
 Summary(pl):	Narzêdzie do monitorowania sieci
