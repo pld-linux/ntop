@@ -2,11 +2,11 @@
 Summary:	Network monitoring tool
 Summary(pl):	Narzêdzie do monitorowania sieci
 Name:		ntop
-Version:	2.1
-Release:	0.7.%(echo %{snap} | sed -e "s/-//g").1
+Version:	2.2
+Release:	0.1
 License:	GPL
 Group:		Networking
-Source0:	http://snapshot.ntop.org/tgz/%{name}-%{snap}.tgz
+Source0:	http://snapshot.ntop.org/tgz/%{name}-%{version}.tgz
 Patch0:		%{name}-acam.patch
 Patch1:		%{name}-externallib.patch
 Patch2:		%{name}-perl.patch
@@ -35,7 +35,7 @@ ntop to narzêdzie, które pokazuje u¿ycie sieci w podobny sposób jak
 robi to popularna Unixowa komenda top.
 
 %prep
-%setup -q -n %{name}-current
+%setup -q 
 #%%patch0 -p1
 cd %{name}*
 %patch2 -p1
