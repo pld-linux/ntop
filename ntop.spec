@@ -1,9 +1,9 @@
-%define	snap	02-04-04
+%define	snap	02-10-03
 Summary:	Network monitoring tool
 Summary(pl):	Narzêdzie do monitorowania sieci
 Name:		ntop
-Version:	2.0
-Release:	0.1.%(echo %{snap} | sed -e "s/-//g")
+Version:	2.1
+Release:	0.2.%(echo %{snap} | sed -e "s/-//g")
 License:	GPL
 Group:		Networking
 Source0:	http://snapshot.ntop.org/tgz/%{name}-%{snap}.tgz
@@ -11,7 +11,7 @@ Source0:	http://snapshot.ntop.org/tgz/%{name}-%{snap}.tgz
 Patch1:		%{name}-externallib.patch
 Patch2:		%{name}-perl.patch
 Patch3:		%{name}-am.patch
-Patch4:		%{name}-plugins-Makefile.patch
+#Patch4:		%{name}-plugins-Makefile.patch
 Patch5:		%{name}-pep-Makefile.patch
 Patch6:		%{name}-Makefile.patch
 URL:		http://www.ntop.org/
@@ -20,6 +20,7 @@ BuildRequires:	automake
 BuildRequires:	gd-devel >= 2.0.1
 BuildRequires:	gdbm-devel
 BuildRequires:	libpcap-devel
+BuildRequires:	libpcap-static
 BuildRequires:	libpng-devel
 BuildRequires:	libwrap-devel
 BuildRequires:	libtool
@@ -41,7 +42,7 @@ robi to popularna Unixowa komenda top.
 %prep
 %setup -q -n %{name}-current
 cd %{name}*
-rm -f missing ltconfig
+#rm -f missing ltconfig
 #%patch0 -p1
 %patch2 -p1
 %patch3 -p1
@@ -51,8 +52,7 @@ cd ../%{name}*
 %patch6 -p0
 
 cd plugins
-
-%patch4 -p0
+#%patch4 -p0
 cd pep
 %patch5 -p0
 
@@ -66,8 +66,8 @@ aclocal
 %{__make}
 
 cd ../%{name}*
-mv -f acinclude.m4.in acinclude.m4
-rm -f missing
+#mv -f acinclude.m4.in acinclude.m4
+#rm -f missing
 #%{__libtoolize}
 aclocal
 %{__autoconf}
@@ -82,7 +82,6 @@ aclocal
 
 %{__make}
 cd plugins
-%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -102,7 +101,7 @@ mv $RPM_BUILD_ROOT%{_bindir}/*.pem $RPM_BUILD_ROOT%{_datadir}/%{name}
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS NEWS README THANKS
+%doc ntop/AUTHORS ntop/NEWS ntop/README ntop/THANKS
 %dir %{_var}/lib/%{name}
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_libdir}/lib*.so
