@@ -1,0 +1,11 @@
+--- a/Makefile.am~	2004-12-21 01:22:40.000000000 +0200
++++ b/Makefile.am	2005-01-02 23:40:53.000000000 +0200
+@@ -271,7 +271,7 @@
+ 
+ install: install-recursive
+ 
+-	@mkdir -p $(CFG_DBFILE_DIR)
++	@mkdir -p $(DESTDIR)$(CFG_DBFILE_DIR)
+ 
+ 	@echo ""
+ 	@echo "------------------------------------------------------------"
