@@ -1,4 +1,7 @@
-# ntop file set
-NTOP_DIR="/var/lib/ntop/"
-NTOP_IFACE="eth0"
+# Customized settings for ntop
 
+# Define nice level for ntop
+#SERVICE_RUN_NICE_LEVEL="+0"
+
+# ntop directory
+NTOP_DIR="/var/lib/ntop"
