@@ -1,0 +1,55 @@
+diff -urN ntop.org/Makefile.am ntop/Makefile.am
+--- ntop.org/Makefile.am	Fri Oct 26 23:41:38 2001
++++ ntop/Makefile.am	Fri Oct 26 23:41:52 2001
+@@ -56,7 +56,7 @@
+ 
+ SUBDIRS = . @PLUGINS@ @INTOP@
+ 
+-DIST_COMMON = AUTHORS CONTENTS COPYING ChangeLog \
++DIST_COMMON_X = AUTHORS CONTENTS COPYING ChangeLog \
+               MANIFESTO NEWS PORTING  \
+               SUPPORT_NTOP.txt \
+               THANKS \
+diff -urN ntop.org/intop/Makefile.am ntop/intop/Makefile.am
+--- ntop.org/intop/Makefile.am	Fri Oct 26 23:41:40 2001
++++ ntop/intop/Makefile.am	Fri Oct 26 23:44:50 2001
+@@ -24,7 +24,7 @@
+ # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ #
+ 
+-DIST_COMMON = Makefile.am Makefile.in intop.1
++DIST_COMMON_X = Makefile.am Makefile.in intop.1
+ 
+ DISTCLEANFILES = logger.db ntop.db ntop_pw.db intops
+ CLEANFILES     = $(DISTCLEANFILES)
+diff -urN ntop.org/plugins/Makefile.am ntop/plugins/Makefile.am
+--- ntop.org/plugins/Makefile.am	Fri Oct 26 23:41:40 2001
++++ ntop/plugins/Makefile.am	Fri Oct 26 23:45:05 2001
+@@ -26,7 +26,7 @@
+ 
+ SUBDIRS = . #pep
+ 
+-DIST_COMMON = Makefile.am Makefile.in
++DIST_COMMON_X = Makefile.am Makefile.in
+ CLEANFILES  =
+ EXTRA_DIST  =
+ 
+diff -urN ntop.org/plugins/pep/Makefile.am ntop/plugins/pep/Makefile.am
+--- ntop.org/plugins/pep/Makefile.am	Fri Oct 26 23:41:40 2001
++++ ntop/plugins/pep/Makefile.am	Fri Oct 26 23:45:17 2001
+@@ -23,7 +23,7 @@
+ # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ #
+ 
+-DIST_COMMON = Makefile.am Makefile.in
++DIST_COMMON_X = Makefile.am Makefile.in
+ CLEANFILES  =
+ EXTRA_DIST  = available.pl hosts.pl
+ 
+@@ -56,4 +56,4 @@
+ pep.so: pep.c
+ #	${CC} -shared ${libpep_la_OBJECTS} ${PEPLIBS} -Wl,-soname -Wl,libpep.so.0 -o pep.so
+ 	@${CC} -shared ${libpep_la_OBJECTS} ${PEPLIBS} -o pep.so
+-	(cd .. && ln -fs pep/pep.so .)
+\ No newline at end of file
++	(cd .. && ln -fs pep/pep.so .)
