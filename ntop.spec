@@ -59,7 +59,7 @@ cd pep
 %build
 cd gdchart*
 rm -rf gd-* zlib-*
-libtoolize --copy --force
+%{__libtoolize}
 aclocal
 %{__autoconf}
 %configure
