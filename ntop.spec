@@ -20,7 +20,7 @@ BuildRequires:	libpng-devel
 BuildRequires:	libwrap-devel
 BuildRequires:	libtool
 BuildRequires:	ncurses-devel >= 5.2
-BuildRequires:	openssl-devel >= 0.9.6a
+BuildRequires:	openssl-devel >= 0.9.7
 BuildRequires:	readline-devel >= 4.2
 BuildRequires:	ucd-snmp-devel
 BuildRequires:	zlib-devel
