@@ -6,10 +6,6 @@ Version:	1.3.2
 Release:	4.%(echo %{snap} | sed -e "s/-//g")
 License:	GPL
 Group:		Networking
-Group(de):	Netzwerkwesen
-Group(es):	Red
-Group(pl):	Sieciowe
-Group(pt_BR):	Rede
 Source0:	http://snapshot.ntop.org/tgz/%{name}-%{snap}.tgz
 Patch0:		%{name}-configure.patch
 Patch1:		%{name}-externallib.patch
