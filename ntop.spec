@@ -6,7 +6,7 @@ Version:	2.2
 Release:	0.2
 License:	GPL
 Group:		Networking
-Source0:	http://snapshot.ntop.org/tgz/%{name}-%{version}.tgz
+Source0:	http://dl.sourceforge.net/ntop/%{name}-%{version}.tgz
 # Source0-md5:	4586e4173fcab64d2394502603fc73aa
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
