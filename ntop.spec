@@ -76,6 +76,8 @@ cd ../%{name}*
 	--with-gdchart-root=`pwd`/../gdchart0.94c \
 	--enable-tcpwrap \
 	--with-gnu-ld \
+	--enable-i18n \
+	--enable-showoses \
 	--localstatedir=%{_var}/lib/%{name} || true
 
 %configure \
@@ -83,7 +85,6 @@ cd ../%{name}*
 	--with-gdchart-root=`pwd`/../gdchart0.94c \
 	--enable-tcpwrap \
 	--with-gnu-ld \
-	--enable-i18n \
 	--localstatedir=%{_var}/lib/%{name}
 
 
@@ -166,4 +167,4 @@ fi
 %{_mandir}/man*/*
 %attr(754,root,root) /etc/rc.d/init.d/ntop
 %attr(640,root,root) /etc/sysconfig/ntop
-%attr(644,ntop,ntop) /etc/ntop.conf
+%attr(644,ntop,ntop) %config(noreplace) %verify(not size mtime md5) /etc/ntop.conf
