@@ -94,7 +94,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/lib*
 #%attr(755,root,root) /usr/share/ntop/*
 %attr(755,root,root) %{_datadir}/%{name}
-#%attr(755,root,root) %{_libdir}/lib*.la
+#%{_libdir}/lib*.la
 #%dir %{_libdir}/%{name}
 #%dir %{_libdir}/%{name}/plugins
 %attr(755,root,root) %{_libdir}/%{name}/plugins
