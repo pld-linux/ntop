@@ -1,9 +1,9 @@
-%define	snap	01-03-26
+%define	snap	01-10-26
 Summary:	Network monitoring tool
 Summary(pl):	Narzêdzie do monitorowania sieci
 Name:		ntop
 Version:	1.3.2
-Release:	3.%(echo %{snap} | sed -e "s/-//g")
+Release:	4.%(echo %{snap} | sed -e "s/-//g")
 License:	GPL
 Group:		Networking
 Group(de):	Netzwerkwesen
@@ -12,6 +12,7 @@ Source0:	http://snapshot.ntop.org/tgz/%{name}-%{snap}.tgz
 Patch0:		%{name}-configure.patch
 Patch1:		%{name}-externallib.patch
 Patch2:		%{name}-perl.patch
+Patch3:		%{name}-am.patch
 URL:		http://www.ntop.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -40,8 +41,9 @@ robi to popularna Unixowa komenda top.
 %setup -q -n %{name}-current
 cd %{name}*
 rm -f missing ltconfig
-%patch0 -p1
+#%patch0 -p1
 %patch2 -p1
+%patch3 -p1
 cd ../gdchart*
 %patch1 -p1
 
