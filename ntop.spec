@@ -7,7 +7,7 @@ Release:	0.1.%(echo %{snap} | sed -e "s/-//g")
 License:	GPL
 Group:		Networking
 Source0:	http://snapshot.ntop.org/tgz/%{name}-%{snap}.tgz
-#Patch0:		%{name}-configure.patch
+#Patch0:	%{name}-configure.patch
 Patch1:		%{name}-externallib.patch
 Patch2:		%{name}-perl.patch
 Patch3:		%{name}-am.patch
@@ -71,8 +71,7 @@ rm -f missing
 #libtoolize --copy --force
 aclocal
 %{__autoconf}
-# automake -a -c -f 
-automake
+%{__automake}
 %configure \
 	--with-gdchart-root=../gdchart0.94c \
 	--with-ossl-root=%{_prefix} \
@@ -95,8 +94,6 @@ install -d	$RPM_BUILD_ROOT%{_var}/%{name}
 
 mv $RPM_BUILD_ROOT%{_bindir}/*.pem $RPM_BUILD_ROOT%{_datadir}/%{name}
 
-gzip -9nf AUTHORS NEWS README THANKS
-
 %clean
 #rm -rf $RPM_BUILD_ROOT
 
@@ -105,7 +102,7 @@ gzip -9nf AUTHORS NEWS README THANKS
 
 %files
 %defattr(644,root,root,755)
-%doc */*.gz
+%doc AUTHORS NEWS README THANKS
 %dir %{_var}/%{name}
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_libdir}/lib*.so
