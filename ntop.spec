@@ -108,20 +108,20 @@ rm -rf $RPM_BUILD_ROOT
 
 %pre
 if [ -n "`getgid ntop`" ]; then
-        if [ "`getgid ntop`" != "120" ]; then
-                echo "Error: group ntop doesn't have gid=120. Correct this before installing ntop." 1>&2
-                exit 1
-        fi
+	if [ "`getgid ntop`" != "120" ]; then
+		echo "Error: group ntop doesn't have gid=120. Correct this before installing ntop." 1>&2
+		exit 1
+	fi
 else
-        /usr/sbin/groupadd -g 120 -r -f ntop
+	/usr/sbin/groupadd -g 120 -r -f ntop
 fi
 if [ -n "`id -u ntop 2>/dev/null`" ]; then
-        if [ "`id -u ntop`" != "120" ]; then
-                echo "Error: user ntop doesn't have uid=120. Correct this before installing ntop." 1>&2
-                exit 1
-        fi
+	if [ "`id -u ntop`" != "120" ]; then
+		echo "Error: user ntop doesn't have uid=120. Correct this before installing ntop." 1>&2
+		exit 1
+	fi
 else
-        /usr/sbin/useradd -u 120 -r -d /var/lib/ntop -s /bin/false -c "ntop User" -g ntop ntop 1>&2
+	/usr/sbin/useradd -u 120 -r -d /var/lib/ntop -s /bin/false -c "ntop User" -g ntop ntop 1>&2
 fi
 
 %post
@@ -135,17 +135,17 @@ fi
 
 %preun
 if [ "$1" = "0" ]; then
-        if [ -f /var/lock/subsys/ntop ]; then
-                /etc/rc.d/init.d/ntop stop 1>&2
-        fi
-        /sbin/chkconfig --del ntop
+	if [ -f /var/lock/subsys/ntop ]; then
+		/etc/rc.d/init.d/ntop stop 1>&2
+	fi
+	/sbin/chkconfig --del ntop
 fi
 
 %postun
 /sbin/ldconfig
 if [ "$1" = "0" ]; then
-        /usr/sbin/userdel ntop
-        /usr/sbin/groupdel ntop
+	/usr/sbin/userdel ntop
+	/usr/sbin/groupdel ntop
 fi
 
 %files
