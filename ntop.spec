@@ -13,7 +13,7 @@ Patch2:		%{name}-perl.patch
 Patch3:		%{name}-am.patch
 Patch4:		%{name}-plugins-Makefile.patch
 Patch5:		%{name}-pep-Makefile.patch
-Patch6:		%{name}-Makefile-version.patch
+Patch6:		%{name}-Makefile.patch
 URL:		http://www.ntop.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -51,7 +51,7 @@ cd ../%{name}*
 %patch6 -p0
 
 cd plugins
-%patch4 -p0
+%#patch4 -p0
 cd pep
 %patch5 -p0
 
@@ -80,6 +80,8 @@ automake -a -c -f
 	
 
 %{__make}
+cd plugins
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -94,7 +96,7 @@ mv $RPM_BUILD_ROOT%{_bindir}/*.pem $RPM_BUILD_ROOT%{_datadir}/%{name}
 gzip -9nf AUTHORS NEWS README THANKS
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+#rm -rf $RPM_BUILD_ROOT
 
 %post   -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
