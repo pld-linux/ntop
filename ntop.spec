@@ -60,7 +60,7 @@ cd pep
 cd gdchart*
 rm -rf gd-* zlib-*
 %{__libtoolize}
-aclocal
+%{__aclocal}
 %{__autoconf}
 %configure
 %{__make}
@@ -69,7 +69,7 @@ cd ../%{name}*
 #mv -f acinclude.m4.in acinclude.m4
 #rm -f missing
 #%{__libtoolize}
-aclocal
+%{__aclocal}
 %{__autoconf}
 %{__automake}
 %configure \
