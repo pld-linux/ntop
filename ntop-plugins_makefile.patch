@@ -1,0 +1,21 @@
+diff -dur ntop-3.0.orig/plugins/Makefile.am ntop-3.0/plugins/Makefile.am
+--- ntop-3.0.orig/plugins/Makefile.am	2004-01-16 19:26:44.000000000 +0100
++++ ntop-3.0/plugins/Makefile.am	2004-09-13 13:23:51.977558630 +0200
+@@ -42,16 +42,6 @@
+ #
+ # The meat for ntop
+ #
+-noinst_PROGRAMS = \
+-                  icmpPlugin.so \
+-                  lastSeenPlugin.so \
+-                  netflowPlugin.so \
+-                  nfsPlugin.so  \
+-                  pdaPlugin.so \
+-                  rrdPlugin.so \
+-                  sflowPlugin.so \
+-                  xmldumpPlugin.so
+-#                 rmonPlugin.so
+ 
+ lib_LTLIBRARIES = \
+                   libicmpPlugin.la \
+Only in ntop-3.0/plugins: Makefile.am~
