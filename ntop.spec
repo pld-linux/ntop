@@ -1,4 +1,4 @@
-%define	snap	02-03-24
+%define	snap	02-04-04
 Summary:	Network monitoring tool
 Summary(pl):	Narzêdzie do monitorowania sieci
 Name:		ntop
@@ -51,7 +51,8 @@ cd ../%{name}*
 %patch6 -p0
 
 cd plugins
-%#patch4 -p0
+
+%patch4 -p0
 cd pep
 %patch5 -p0
 
@@ -67,10 +68,11 @@ autoconf
 cd ../%{name}*
 mv -f acinclude.m4.in acinclude.m4
 rm -f missing
-libtoolize --copy --force
+#libtoolize --copy --force
 aclocal
 autoconf
-automake -a -c -f 
+# automake -a -c -f 
+automake
 %configure \
 	--with-gdchart-root=../gdchart0.94c \
 	--with-ossl-root=%{_prefix} \
