@@ -2,17 +2,15 @@ Summary:	Network monitoring tool
 Summary(pl):	Narzêdzie do monitorowania sieci
 Name:		ntop
 Version:	3.0
-Release:	0.2
+Release:	1
 License:	GPL
 Group:		Networking
 Source0:	http://dl.sourceforge.net/ntop/%{name}-%{version}.tgz
 # Source0-md5:	1ec6055c75f1acbb5d5600492481ef85
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
-Source3:	%{name}.conf
-Patch0:		%{name}-acam.patch
-Patch1:		%{name}-externallib.patch
-Patch2:		%{name}-perl.patch
+Patch1:		%{name}-plugins_makefile.patch
+Patch2:		%{name}-conf.patch
 URL:		http://www.ntop.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -48,21 +46,10 @@ robi to popularna Unixowa komenda top.
 
 %prep
 %setup -q
-#%%patch0 -p1
-#cd %{name}*
-#%%patch2 -p1
-#cd ../gdchart*
-#%%patch1 -p1
+%patch1 -p1
+%patch2 -p1
 
 %build
-#cd gdchart*
-#rm -rf gd-* zlib-*
-#%%{__libtoolize}
-#%%{__aclocal}
-#%%{__autoconf}
-#%%configure
-#%%{__make}
-
 #mv -f acinclude.m4.in acinclude.m4
 #rm -f missing
 #%%{__libtoolize}
@@ -97,11 +84,9 @@ install -d	$RPM_BUILD_ROOT{%{_var}/lib/%{name},/etc/{rc.d/init.d,sysconfig}}
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-#mv $RPM_BUILD_ROOT%{_bindir}/*.pem $RPM_BUILD_ROOT%{_datadir}/%{name}
-
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/ntop
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/ntop
-install %{SOURCE3} $RPM_BUILD_ROOT/etc/ntop.conf
+install packages/RedHat/ntop.conf.sample $RPM_BUILD_ROOT/etc/ntop.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -150,16 +135,15 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS NEWS README THANKS
-#ntop/docs/1STRUN.TXT ntop/docs/FAQ
-%dir %{_var}/lib/%{name}
+%doc AUTHORS ChangeLog NEWS README THANKS
+%attr(770,root,ntop) %dir %{_var}/lib/%{name}
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_libdir}/lib*
 %attr(755,root,root) %{_datadir}/%{name}
-#%%{_libdir}/lib*.la
 %dir %{_libdir}/%{name}
 %attr(755,root,root) %{_libdir}/%{name}/plugins
 %{_mandir}/man*/*
 %attr(754,root,root) /etc/rc.d/init.d/ntop
 %attr(640,root,root) /etc/sysconfig/ntop
-%attr(644,ntop,ntop) %config(noreplace) %verify(not size mtime md5) /etc/ntop.conf
+%attr(640,root,ntop) %config(noreplace) %verify(not size mtime md5) /etc/ntop
+%attr(644,root,ntop) %config(noreplace) %verify(not size mtime md5) /etc/ntop.conf
