@@ -15,7 +15,7 @@ Patch2:		%{name}-perl.patch
 URL:		http://www.ntop.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	gd-devel >= 2.0.
+BuildRequires:	gd-devel >= 2.0.1
 BuildRequires:	gdbm-devel
 BuildRequires:	libpcap-devel
 BuildRequires:	libpng-devel
