@@ -1,12 +1,12 @@
 Summary:	Network monitoring tool
 Summary(pl):	Narzêdzie do monitorowania sieci
 Name:		ntop
-Version:	2.2
+Version:	3.0
 Release:	0.2
 License:	GPL
 Group:		Networking
 Source0:	http://dl.sourceforge.net/ntop/%{name}-%{version}.tgz
-# Source0-md5:	4586e4173fcab64d2394502603fc73aa
+# Source0-md5:	1ec6055c75f1acbb5d5600492481ef85
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Source3:	%{name}.conf
@@ -49,21 +49,20 @@ robi to popularna Unixowa komenda top.
 %prep
 %setup -q
 #%%patch0 -p1
-cd %{name}*
-%patch2 -p1
-cd ../gdchart*
-%patch1 -p1
+#cd %{name}*
+#%%patch2 -p1
+#cd ../gdchart*
+#%%patch1 -p1
 
 %build
-cd gdchart*
-rm -rf gd-* zlib-*
-%{__libtoolize}
-%{__aclocal}
-%{__autoconf}
-%configure
-%{__make}
+#cd gdchart*
+#rm -rf gd-* zlib-*
+#%%{__libtoolize}
+#%%{__aclocal}
+#%%{__autoconf}
+#%%configure
+#%%{__make}
 
-cd ../%{name}*
 #mv -f acinclude.m4.in acinclude.m4
 #rm -f missing
 #%%{__libtoolize}
@@ -93,7 +92,6 @@ cd plugins
 
 %install
 rm -rf $RPM_BUILD_ROOT
-cd %{name}*
 install -d	$RPM_BUILD_ROOT{%{_var}/lib/%{name},/etc/{rc.d/init.d,sysconfig}}
 
 %{__make} install \
@@ -152,7 +150,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc ntop/AUTHORS ntop/NEWS ntop/README ntop/THANKS
+%doc AUTHORS NEWS README THANKS
 #ntop/docs/1STRUN.TXT ntop/docs/FAQ
 %dir %{_var}/lib/%{name}
 %attr(755,root,root) %{_bindir}/*
