@@ -45,7 +45,7 @@ popular top Unix command does.
 
 %description -l pl
 ntop to narzêdzie, które pokazuje u¿ycie sieci w podobny sposób jak
-robi to popularna Uniksowa komenda top.
+robi to popularna uniksowa komenda top.
 
 %prep
 %setup -q
