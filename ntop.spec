@@ -1,6 +1,10 @@
 # TODO:
 #  - duplicate configure. remove or write down reason.
 #  - configure appears to need gawk
+#  - service ntop init steals terminal (it doesnt finish nor background)
+#  - paths wrong somewhere /var/lib/ntop/ntop is expected (should be without last path component)
+#  - /var/lib/ntop/* should be %ghost
+#  - .la files should be in -devel
 #
 Summary:	Network monitoring tool
 Summary(pl):	Narzêdzie do monitorowania sieci
