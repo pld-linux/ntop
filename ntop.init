@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# ntop  	This shell script takes care of starting and stopping ntop
+# ntop		This shell script takes care of starting and stopping ntop
 #
 # chkconfig:	345 96 24
 # description:	Network monitoring tool.
@@ -30,13 +30,13 @@ RETVAL=0
 # See how we were called.
 case "$1" in
   start)
-        # Check if ntop is initialized
-        if [ ! -f "$NTOP_DIR/addressQueue.db" ]; then
-                echo "ntop is not initialized. Try \"$0 init\" before start."
-                echo ""
-		echo "after setting password please ^C, to stop the daemon"
-		exit 1
-        fi
+	# Check if ntop is initialized
+	if [ ! -f "$NTOP_DIR/addressQueue.db" ]; then
+		nls "ntop is not initialized. Try \"%s init\" before start." "$0"
+		echo ""
+		nls "after setting password please ^C, to stop the daemon"
+		exit 6
+	fi
 
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/ntop ]; then
@@ -68,14 +68,13 @@ case "$1" in
 		msg_reloading ntop
 		killproc ntop -HUP
 		RETVAL=$?
-        else
-                msg_not_running ntop >&2
-                exit 7
-        fi
-        ;;
-
+	else
+		msg_not_running ntop >&2
+		exit 7
+	fi
+	;;
   init)
-        ntop -P $NTOP_DIR
+	ntop -P $NTOP_DIR
 	;;
   status)
 	status ntop
