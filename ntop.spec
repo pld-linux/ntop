@@ -3,7 +3,7 @@ Summary:	Network monitoring tool
 Summary(pl):	Narzêdzie do monitorowania sieci
 Name:		ntop
 Version:	2.1
-Release:	0.7.%(echo %{snap} | sed -e "s/-//g")
+Release:	0.7.%(echo %{snap} | sed -e "s/-//g").1
 License:	GPL
 Group:		Networking
 Source0:	http://snapshot.ntop.org/tgz/%{name}-%{snap}.tgz
@@ -14,7 +14,7 @@ URL:		http://www.ntop.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gd-devel >= 2.0.1
-BuildRequires:	gdbm-devel
+BuildRequires:	gdbm-devel >= 1.8.3
 BuildRequires:	libpcap-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libtiff-devel
