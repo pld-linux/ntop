@@ -28,6 +28,15 @@ BuildRequires:	ncurses-devel >= 5.2
 BuildRequires:	openssl-devel >= 0.9.7c
 BuildRequires:	readline-devel >= 4.2
 BuildRequires:	zlib-devel
+PreReq:		rc-scripts
+Requires(pre):	/usr/bin/getgid
+Requires(pre):	/bin/id
+Requires(pre):	/usr/sbin/groupadd
+Requires(pre):	/usr/sbin/useradd
+Requires(post,preun):	/sbin/chkconfig
+Requires(post,postun):	/sbin/ldconfig
+Requires(postun):	/usr/sbin/groupdel
+Requires(postun):	/usr/sbin/userdel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -119,6 +128,11 @@ fi
 %post   
 /sbin/ldconfig
 /sbin/chkconfig --add ntop
+if [ -f /var/lock/subsys/ntop ]; then
+	/etc/rc.d/init.d/ntop restart >&2
+else
+	echo "Run \"/etc/rc.d/init.d/ntop start\" to start ntop daemon." >&2
+fi
 
 %preun
 if [ "$1" = "0" ]; then
@@ -148,6 +162,6 @@ fi
 #%dir %{_libdir}/%{name}/plugins
 %attr(755,root,root) %{_libdir}/%{name}/plugins
 %{_mandir}/man*/*
-%attr(755,root,root) /etc/rc.d/init.d/ntop
-%attr(644,root,root) /etc/sysconfig/ntop
+%attr(754,root,root) /etc/rc.d/init.d/ntop
+%attr(640,root,root) /etc/sysconfig/ntop
 %attr(644,ntop,ntop) /etc/ntop.conf
