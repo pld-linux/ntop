@@ -2,7 +2,7 @@ Summary:	Network monitoring tool
 Summary(pl):	Narzêdzie do monitorowania sieci
 Name:		ntop
 Version:	3.0
-Release:	1
+Release:	2
 License:	GPL
 Group:		Networking
 Source0:	http://dl.sourceforge.net/ntop/%{name}-%{version}.tgz
@@ -88,6 +88,9 @@ install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/ntop
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/ntop
 install packages/RedHat/ntop.conf.sample $RPM_BUILD_ROOT/etc/ntop.conf
 
+mv $RPM_BUILD_ROOT%{_libdir}/lib*Plugin*.so $RPM_BUILD_ROOT%{_libdir}/%{name}/plugins
+rm $RPM_BUILD_ROOT%{_libdir}/*.a
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -145,5 +148,6 @@ fi
 %{_mandir}/man*/*
 %attr(754,root,root) /etc/rc.d/init.d/ntop
 %attr(640,root,root) /etc/sysconfig/ntop
-%attr(640,root,ntop) %config(noreplace) %verify(not size mtime md5) /etc/ntop
+%attr(750,root,ntop) %dir /etc/ntop
+%attr(640,root,ntop) %config(noreplace) %verify(not size mtime md5) /etc/ntop/*
 %attr(644,root,ntop) %config(noreplace) %verify(not size mtime md5) /etc/ntop.conf
