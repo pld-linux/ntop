@@ -61,7 +61,7 @@ cd gdchart*
 rm -rf gd-* zlib-*
 libtoolize --copy --force
 aclocal
-autoconf
+%{__autoconf}
 %configure
 %{__make}
 
@@ -70,7 +70,7 @@ mv -f acinclude.m4.in acinclude.m4
 rm -f missing
 #libtoolize --copy --force
 aclocal
-autoconf
+%{__autoconf}
 # automake -a -c -f 
 automake
 %configure \
