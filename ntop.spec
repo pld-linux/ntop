@@ -3,7 +3,7 @@ Summary:	Network monitoring tool
 Summary(pl):	Narzêdzie do monitorowania sieci
 Name:		ntop
 Version:	2.1
-Release:	0.3.%(echo %{snap} | sed -e "s/-//g")
+Release:	0.4.%(echo %{snap} | sed -e "s/-//g")
 License:	GPL
 Group:		Networking
 Source0:	http://snapshot.ntop.org/tgz/%{name}-%{snap}.tgz
@@ -82,6 +82,7 @@ aclocal
 
 %{__make}
 cd plugins
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
