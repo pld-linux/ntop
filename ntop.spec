@@ -3,11 +3,13 @@ Summary:	Network monitoring tool
 Summary(pl):	Narzêdzie do monitorowania sieci
 Name:		ntop
 Version:	2.2
-Release:	0.1
+Release:	0.2
 License:	GPL
 Group:		Networking
 Source0:	http://snapshot.ntop.org/tgz/%{name}-%{version}.tgz
 # Source0-md5:	4586e4173fcab64d2394502603fc73aa
+Source1:	%{name}.init
+Source2:	%{name}.sysconfig
 Patch0:		%{name}-acam.patch
 Patch1:		%{name}-externallib.patch
 Patch2:		%{name}-perl.patch
@@ -81,12 +83,15 @@ cd plugins
 %install
 rm -rf $RPM_BUILD_ROOT
 cd %{name}*
-install -d	$RPM_BUILD_ROOT%{_var}/lib/%{name}
+install -d	$RPM_BUILD_ROOT{%{_var}/lib/%{name},/etc/{rc.d/init.d,sysconfig}}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 #mv $RPM_BUILD_ROOT%{_bindir}/*.pem $RPM_BUILD_ROOT%{_datadir}/%{name}
+
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/ntop
+install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/ntop
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -107,3 +112,5 @@ rm -rf $RPM_BUILD_ROOT
 #%dir %{_libdir}/%{name}/plugins
 %attr(755,root,root) %{_libdir}/%{name}/plugins
 %{_mandir}/man*/*
+%attr(755,root,root) /etc/rc.d/init.d/ntop
+%attr(644,root,root) /etc/sysconfig/ntop
