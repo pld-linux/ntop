@@ -1,0 +1,30 @@
+--- Makefile.am.orig	Mon Mar 25 22:11:50 2002
++++ Makefile.am	Mon Mar 25 22:27:25 2002
+@@ -78,27 +78,15 @@
+ .libs/libicmpPlugin.so@SO_VERSION_PATCH@:
+ 	cc -bundle -flat_namespace -undefined suppress -o .libs/libicmpPlugin.so@SO_VERSION_PATCH@ icmpPlugin.o
+ 
+-icmpPlugin.so: .libs/libicmpPlugin.so@SO_VERSION_PATCH@
+-	@ln -s .libs/libicmpPlugin.so icmpPlugin.so
+-
+ .libs/libsflowPlugin.so@SO_VERSION_PATCH@:
+ 	cc -bundle -flat_namespace -undefined suppress -o .libs/libsflowPlugin.so@SO_VERSION_PATCH@ sflowPlugin.o
+ 
+-sflowPlugin.so: .libs/libsflowPlugin.so@SO_VERSION_PATCH@
+-	@ln -s .libs/libsflowPlugin.so sflowPlugin.so
+-
+ .libs/liblastSeenPlugin.so@SO_VERSION_PATCH@:
+ 	cc -bundle -flat_namespace -undefined suppress -o .libs/liblastSeenPlugin.so@SO_VERSION_PATCH@ lastSeenPlugin.o
+ 
+-lastSeenPlugin.so: .libs/liblastSeenPlugin.so@SO_VERSION_PATCH@
+-	@ln -s .libs/liblastSeenPlugin.so lastSeenPlugin.so
+-
+ .libs/libnfsPlugin.so@SO_VERSION_PATCH@:
+ 	cc -bundle -flat_namespace -undefined suppress -o .libs/libnfsPlugin.so@SO_VERSION_PATCH@ nfsPlugin.o
+ 
+-nfsPlugin.so: .libs/libnfsPlugin.so@SO_VERSION_PATCH@
+-	@ln -s .libs/libnfsPlugin.so nfsPlugin.so
+-
+ #.libs/librmonPlugin.so@SO_VERSION_PATCH@:
+ #	cc -bundle -flat_namespace -undefined suppress -o .libs/librmonPlugin.so@SO_VERSION_PATCH@ rmonPlugin.o
+ 
