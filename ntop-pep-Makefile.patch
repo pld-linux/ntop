@@ -1,11 +1,19 @@
---- Makefile.am.orig	Thu Jan  3 00:07:21 2002
-+++ Makefile.am	Mon Mar 25 22:31:56 2002
-@@ -39,7 +39,7 @@
- #
- # The meat for ntop
- #
--noinst_PROGRAMS = pep.so
-+#noinst_PROGRAMS = pep.so
- 
+--- Makefile.am.orig	Thu Apr  4 12:50:44 2002
++++ Makefile.am	Thu Apr  4 12:54:05 2002
+@@ -44,7 +44,6 @@
  plugin_LTLIBRARIES = libpep.la
  
+ libpep_la_SOURCES = pep.c
+-libpep_la_LDFLAGS = -shared -version-info @NTOP_VERSION_INFO@
+ 
+ #
+ # LIBS must be cleared, or else libtool won't create a shared module.
+@@ -53,7 +52,6 @@
+ #
+ LIBS = # ${PEPLIBS}
+ 
+-pep.so: pep.c
++pep: pep.c
+ #	${CC} -shared ${libpep_la_OBJECTS} ${PEPLIBS} -Wl,-soname -Wl,libpep.so.0 -o pep.so
+ 	@${CC} -shared ${libpep_la_OBJECTS} ${PEPLIBS} -o pep.so
+-	(cd .. && ln -fs pep/pep.so .)
