@@ -1,4 +1,3 @@
-%define	snap	03-02-13
 Summary:	Network monitoring tool
 Summary(pl):	Narzêdzie do monitorowania sieci
 Name:		ntop
