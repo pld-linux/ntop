@@ -3,7 +3,7 @@ Summary:	Network monitoring tool
 Summary(pl):	Narzêdzie do monitorowania sieci
 Name:		ntop
 Version:	1.3.2
-Release:	0.%(echo %{snap} | sed -e "s/-//g")
+Release:	1.%(echo %{snap} | sed -e "s/-//g")
 License:	GPL
 Group:		Networking
 Group(de):	Netzwerkwesen
@@ -15,8 +15,8 @@ Patch2:		%{name}-perl.patch
 URL:		http://www.ntop.org/
 BuildRequires:	libpcap-devel
 BuildRequires:	libwrap-devel
-BuildRequires:	ncurses-devel
-BuildRequires:	readline-devel
+BuildRequires:	ncurses-devel >= 5.2
+BuildRequires:	readline-devel >= 4.2
 BuildRequires:	openssl-devel
 BuildRequires:	ucd-snmp-devel
 BuildRequires:	gd-devel >= 1.8.2
