@@ -1,11 +1,12 @@
 # TODO:
-# there is a problem with --localstatedir=%{_var}/lib/%{name} (not building)
+#  - duplicate configure. remove or write down reason.
+#  - configure appears to need gawk
 #
 Summary:	Network monitoring tool
 Summary(pl):	Narzêdzie do monitorowania sieci
 Name:		ntop
 Version:	3.1
-Release:	0.1
+Release:	0.2
 License:	GPL
 Group:		Networking
 Source0:	http://dl.sourceforge.net/ntop/%{name}-%{version}.tgz
@@ -14,6 +15,7 @@ Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Patch1:		%{name}-plugins_makefile.patch
 Patch2:		%{name}-conf.patch
+Patch3:		%{name}-DESTDIR.patch
 URL:		http://www.ntop.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -54,6 +56,7 @@ robi to popularna uniksowa komenda top.
 %setup -q -n %{name}
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 #mv -f acinclude.m4.in acinclude.m4
