@@ -1,0 +1,11 @@
+--- Makefile.am.orig	Thu Jan  3 00:07:21 2002
++++ Makefile.am	Mon Mar 25 22:31:56 2002
+@@ -39,7 +39,7 @@
+ #
+ # The meat for ntop
+ #
+-noinst_PROGRAMS = pep.so
++#noinst_PROGRAMS = pep.so
+ 
+ plugin_LTLIBRARIES = libpep.la
+ 
