@@ -36,7 +36,7 @@ ntop to narzêdzie, które pokazuje u¿ycie sieci w podobny sposób jak
 robi to popularna Unixowa komenda top.
 
 %prep
-%setup -q 
+%setup -q
 #%%patch0 -p1
 cd %{name}*
 %patch2 -p1
