@@ -66,7 +66,7 @@ automake -a -c -i
 	--enable-tcpwrap \
 	--with-gnu-ld \
 	--localstatedir=%{_var}/%{ntop}
-	
+
 %{__make}
 
 %install
@@ -76,7 +76,7 @@ install -d	$RPM_BUILD_ROOT%{_var}/%{name}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
-	
+
 mv $RPM_BUILD_ROOT%{_bindir}/*.pem	$RPM_BUILD_ROOT%{_datadir}/%{name}
 
 gzip -9nf AUTHORS NEWS README THANKS
