@@ -17,6 +17,7 @@ BuildRequires:	gd-devel >= 2.0.1
 BuildRequires:	gdbm-devel
 BuildRequires:	libpcap-devel
 BuildRequires:	libpng-devel
+BuildRequires:	libtiff-devel
 BuildRequires:	libwrap-devel
 BuildRequires:	libtool
 BuildRequires:	ncurses-devel >= 5.2
