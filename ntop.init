@@ -1,0 +1,89 @@
+#!/bin/sh
+#
+# ntop  	This shell script takes care of starting and stopping ntop
+#
+# chkconfig:	345 96 24
+# description:	Network monitoring tool.
+#
+
+# Source function library
+. /etc/rc.d/init.d/functions
+
+# Get network config
+. /etc/sysconfig/network
+
+
+# Get service config - may override defaults
+[ -f /etc/sysconfig/ntop ] && . /etc/sysconfig/ntop
+
+# Check that networking is up.
+if is_yes "${NETWORKING}"; then
+	if [ ! -f /var/lock/subsys/network -a "$1" != stop -a "$1" != status ]; then
+		msg_network_down ntop
+		exit 1
+	fi
+else
+	exit 0
+fi
+
+RETVAL=0
+# See how we were called.
+case "$1" in
+  start)
+        # Check if ntop is initialized
+        if [ ! -f "$NTOP_DIR/addressQueue.db" ]; then
+                echo "ntop is not initialized. Try \"$0 init\" before start."
+                echo ""
+		echo "after setting password please ^C, to stop the daemon"
+		exit 1
+        fi
+
+	# Check if the service is already running?
+	if [ ! -f /var/lock/subsys/ntop ]; then
+		msg_starting ntop
+		ntop -d -P $NTOP_DIR > /dev/null 2>&1
+		RETVAL=$?
+		[ $RETVAL -eq 0 ] && ok || fail
+		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/ntop
+	else
+		msg_already_running ntop
+	fi
+	;;
+  stop)
+	# Stop daemons.
+	if [ -f /var/lock/subsys/ntop ]; then
+		msg_stopping ntop
+		killproc ntop
+		rm -f /var/lock/subsys/ntop >/dev/null 2>&1
+	else
+		msg_not_running ntop
+	fi	
+	;;
+  restart)
+	$0 stop
+	$0 start
+	;;
+  reload|force-reload)
+	if [ -f /var/lock/subsys/ntop ]; then
+		msg_reloading ntop
+		killproc ntop -HUP
+		RETVAL=$?
+        else
+                msg_not_running ntop >&2
+                exit 7
+        fi
+        ;;
+
+  init)
+        ntop -P $NTOP_DIR
+	;;
+  status)
+	status ntop
+	exit $?
+	;;
+  *)
+	msg_usage "$0 {start|stop|restart|reload|force-reload|init|status}"
+	exit 3
+esac
+
+exit $RETVAL
