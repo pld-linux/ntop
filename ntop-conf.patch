@@ -1,0 +1,45 @@
+diff -dur ntop-3.0.orig/packages/RedHat/ntop.conf.sample ntop-3.0/packages/RedHat/ntop.conf.sample
+--- ntop-3.0.orig/packages/RedHat/ntop.conf.sample	2004-03-18 19:28:25.000000000 +0100
++++ ntop-3.0/packages/RedHat/ntop.conf.sample	2004-09-13 15:11:43.799188870 +0200
+@@ -63,9 +63,9 @@
+ ## -d | --daemon -- sets ntop to run as a daemon (in the background, not
+ ##        connected to a specific terminal).
+ 
+-##  NOTE: For more than casual use, you probably want this.
++##  PLD NOTE: This option is added by the init script
+ 
+---daemon
++##--daemon
+ 
+ ##-----------------------------------------------------------------------------#
+ 
+@@ -75,7 +75,9 @@
+ ##        the working directory (pwd) will be different when ntop is run
+ ##        from the command line, from cron and from initialization.
+ 
+---db-file-path /usr/share/ntop
++##  PLD NOTE: Set the path in /etc/sysconfig/ntop
++
++##--db-file-path /usr/share/ntop
+ #? -P /var/ntop
+ 
+ ##-----------------------------------------------------------------------------#
+@@ -148,7 +150,7 @@
+ 
+ ## It can be either a file or a list.  To point ntop to a file specify it's name:
+ 
+-#? -p /usr/share/ntop/protocol.list 
++#? -p /etc/ntop/protocol.list 
+ 
+ ## Or to give an explicit list:
+ 
+@@ -205,6 +207,8 @@
+ ## Thus a typical startup for ntop running as a daemon is:
+ #--daemon --use-syslog
+ 
++--use-syslog
++
+ 
+ ## You can also direct the messages to another file.  You'll want to
+ ## look at man syslog.conf to setup the configuration file.  For example
+Only in ntop-3.0/packages/RedHat: ntop.conf.sample~
