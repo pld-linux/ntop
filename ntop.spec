@@ -53,7 +53,7 @@ rm -rf gd-* zlib-*
 cd ../%{name}*
 #mv -f acinclude.m4.in acinclude.m4
 #rm -f missing
-#%{__libtoolize}
+#%%{__libtoolize}
 %{__aclocal}
 %{__autoconf}
 %{__automake}
@@ -100,7 +100,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/lib*
 #%attr(755,root,root) /usr/share/ntop/*
 %attr(755,root,root) %{_datadir}/%{name}
-#%{_libdir}/lib*.la
+#%%{_libdir}/lib*.la
 #%dir %{_libdir}/%{name}
 #%dir %{_libdir}/%{name}/plugins
 %attr(755,root,root) %{_libdir}/%{name}/plugins
