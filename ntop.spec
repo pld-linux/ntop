@@ -77,7 +77,7 @@ aclocal
 	--with-ossl-root=%{_prefix} \
 	--enable-tcpwrap \
 	--with-gnu-ld \
-	--localstatedir=%{_var}/%{ntop}
+	--localstatedir=%{_var}/%{nane}
 	
 
 %{__make}
