@@ -8,12 +8,14 @@ Group:          Networking
 Group(pl):      Sieciowe
 Source0:	ftp://ftp.ntop.org/pub/local/ntop/snapshots/%{name}-src-Oct-26-2000.tar.gz
 Patch0:		ntop-configure.patch
+Patch1:		ntop-plugins.patch
 URL:		http://www.ntop.org/
 BuildRequires:	libpcap-devel
 BuildRequires:	libwrap-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	readline-devel
 BuildRequires:	openssl-devel
+BuildRequires:	ucd-snmp-devel
 BuildRequires:	tar
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -28,21 +30,27 @@ jak robi to popularna Unixowa komenda top.
 %prep
 %setup -q -c
 tar xzf %{name}-*.tar.gz
+tar xzf gdchart*.tar.gz
+rm -f *.tar.gz
 cd %{name}-%{version}
 %patch0 -p1
+%patch1 -p1
 
 %build
-cd %{name}-%{version}
+cd gdchart*
+%configure
+%{__make}
+
+cd ../%{name}-%{version}
 libtoolize --copy --force
-aclocal && autoheader && automake --add-missing --gnu && autoconf
+aclocal
+autoheader
+automake --add-missing --gnu
+autoconf
 %configure \
-	--enable-ssl \
-	--enable-readline \
-	--enable-curses \
+	--with-gdchart-root=../gdchart* \
+	--with-ossl-root=%{_prefix} \
 	--enable-tcpwrap \
-	--enable-plugins \
-	--enable-intop \
-	--enable-ri \
 	--disable-mt
 	
 %{__make}
@@ -52,6 +60,8 @@ cd %{name}-%{version}
 rm -rf $RPM_BUILD_ROOT
 
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
+rm $RPM_BUILD_ROOT%{_bindir}/*.pem
+
 gzip -9nf AUTHORS FAQ KNOWN_BUGS NEWS README THANKS TODO
 
 %clean
@@ -59,6 +69,9 @@ gzip -9nf AUTHORS FAQ KNOWN_BUGS NEWS README THANKS TODO
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz
+%doc */*.gz
 %attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_libdir}/lib*
+%{_libdir}/%{name}
+%{_datadir}/%{name}
 %{_mandir}/man*/*
