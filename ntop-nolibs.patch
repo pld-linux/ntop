@@ -1,0 +1,38 @@
+--- ntop/configure.in.orig	2004-12-21 05:07:08.000000000 +0100
++++ ntop/configure.in	2005-05-19 11:07:21.000000000 +0200
+@@ -2198,10 +2198,8 @@
+ AC_CHECK_LIB([c], [ceil], , [AC_CHECK_LIB([m], [ceil])])
+ 
+ dnl> Networking libraries
+-AC_CHECK_LIB([nsl],    [main])
+-AC_CHECK_LIB([xnet],   [main])
+-AC_CHECK_LIB([socket], [main])
+-AC_CHECK_LIB([resolv], [main])
++AC_SEARCH_LIBS([gethostbyname], [nsl resolv])
++AC_SEARCH_LIBS([socket], [xnet socket])
+ 
+ dnl> Multithreading libraries
+ AC_CHECK_LIB(pthread, pthread_create, , [
+@@ -2223,9 +2223,9 @@
+ dnl>AC_CHECK_LIB([wrap], [hosts_access])
+ 
+ dnl> XML dump (plugin)
+-AC_CHECK_LIB([glib], [g_date_julian])
+-AC_CHECK_LIB([xml2], [xmlCheckVersion])
+-AC_CHECK_LIB([gdome], [gdome_di_saveDocToFile])
++AC_CHECK_LIB([glib], [g_date_julian], [:])
++AC_CHECK_LIB([xml2], [xmlCheckVersion], [:])
++AC_CHECK_LIB([gdome], [gdome_di_saveDocToFile], [:])
+ 
+ dnl> Functions and types
+ AC_FUNC_ALLOCA
+--- ntop/plugins/Makefile.am.orig	2005-05-19 11:11:10.000000000 +0200
++++ ntop/plugins/Makefile.am	2005-05-19 11:22:00.000000000 +0200
+@@ -77,6 +77,7 @@
+ 
+ libxmldumpPlugin_la_SOURCES = xmldumpPlugin.c
+ libxmldumpPlugin_la_LDFLAGS = -shared -release @PACKAGE_VERSION@ @DYN_FLAGS@
++libxmldumpPlugin_la_LIBADD = # -lglib -lxml2 -lgdome broken anyway
+ 
+ #
+ # Dependencies to allow ntop loading plugins on-place
