@@ -18,9 +18,9 @@ Source0:	http://dl.sourceforge.net/ntop/%{name}-%{version}.tgz
 # Source0-md5:	1c9b4097c2e464b84f2fe8f6626d2b06
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
-Patch1:		%{name}-plugins_makefile.patch
-Patch2:		%{name}-conf.patch
-Patch3:		%{name}-DESTDIR.patch
+Patch0:		%{name}-plugins_makefile.patch
+Patch1:		%{name}-conf.patch
+Patch2:		%{name}-DESTDIR.patch
 URL:		http://www.ntop.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -59,13 +59,12 @@ robi to popularna uniksowa komenda top.
 
 %prep
 %setup -q -n %{name}
+%patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
 %build
 #mv -f acinclude.m4.in acinclude.m4
-#rm -f missing
 #%%{__libtoolize}
 %{__aclocal}
 %{__autoconf}
@@ -88,12 +87,11 @@ robi to popularna uniksowa komenda top.
 
 
 %{__make}
-cd plugins
-%{__make}
+%{__make} -C plugins
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d	$RPM_BUILD_ROOT{%{_var}/lib/%{name},/etc/{rc.d/init.d,sysconfig}}
+install -d $RPM_BUILD_ROOT{%{_var}/lib/%{name},/etc/{rc.d/init.d,sysconfig}}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -149,5 +147,5 @@ fi
 %attr(754,root,root) /etc/rc.d/init.d/ntop
 %attr(640,root,root) /etc/sysconfig/ntop
 %attr(750,root,ntop) %dir /etc/ntop
-%attr(640,root,ntop) %config(noreplace) %verify(not size mtime md5) /etc/ntop/*
-%attr(644,root,ntop) %config(noreplace) %verify(not size mtime md5) /etc/ntop.conf
+%attr(640,root,ntop) %config(noreplace) %verify(not md5 mtime size) /etc/ntop/*
+%attr(644,root,ntop) %config(noreplace) %verify(not md5 mtime size) /etc/ntop.conf
