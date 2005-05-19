@@ -1,6 +1,4 @@
 # TODO:
-#  - duplicate configure. remove or write down reason.
-#  - configure appears to need gawk
 #  - service ntop init steals terminal (it doesnt finish nor background)
 #  - paths wrong somewhere /var/lib/ntop/ntop is expected (should be without last path component)
 #  - /var/lib/ntop/* should be %ghost
@@ -21,21 +19,28 @@ Source2:	%{name}.sysconfig
 Patch0:		%{name}-plugins_makefile.patch
 Patch1:		%{name}-conf.patch
 Patch2:		%{name}-DESTDIR.patch
+Patch3:		%{name}-nolibs.patch
 URL:		http://www.ntop.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	gawk
 BuildRequires:	gd-devel >= 2.0.1
 BuildRequires:	gdbm-devel >= 1.8.3
 BuildRequires:	libpcap-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libtiff-devel
-BuildRequires:	libwrap-devel
 BuildRequires:	libtool
+BuildRequires:	libwrap-devel
 BuildRequires:	ncurses-devel >= 5.2
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	readline-devel >= 4.2
 BuildRequires:	rpmbuild(macros) >= 1.202
 BuildRequires:	zlib-devel
+# for xmldump plugin (disabled as it's broken anyway - wants additional -I
+# to enable, and then fails to build)
+#BuildRequires:	gdome2-devel
+#BuildRequires:	glib-devel
+#BuildRequires:	libxml2-devel
 PreReq:		rc-scripts
 Requires(pre):	/bin/id
 Requires(pre):	/usr/bin/getgid
@@ -48,6 +53,8 @@ Requires(postun):	/usr/sbin/userdel
 Provides:	group(ntop)
 Provides:	user(ntop)
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		_localstatedir		/var/lib/ntop
 
 %description
 ntop is a tool that shows the network usage, similar to what the
@@ -62,36 +69,30 @@ robi to popularna uniksowa komenda top.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
+
+# kill libtool.m4 copy
+cp -f acinclude.m4.ntop acinclude.m4
 
 %build
-#mv -f acinclude.m4.in acinclude.m4
-#%%{__libtoolize}
+%{__libtoolize}
 %{__aclocal}
 %{__autoconf}
 %{__automake}
+# "verified.awk -u" calls require gawk
 %configure \
-	--with-ossl-root=%{_prefix} \
-	--with-gdchart-root=`pwd`/../gdchart0.94c \
-	--enable-tcpwrap \
-	--with-gnu-ld \
+	AWK=gawk \
+	--disable-static \
 	--enable-i18n \
-	--enable-showoses \
-	--localstatedir=%{_var}/lib/%{name} || true
-
-%configure \
-	--with-ossl-root=%{_prefix} \
-	--with-gdchart-root=`pwd`/../gdchart0.94c \
-	--enable-tcpwrap \
 	--with-gnu-ld \
-	--localstatedir=%{_var}/lib/%{name}
-
+	--with-ossl-root=%{_prefix} \
+	--with-tcpwrap
 
 %{__make}
-%{__make} -C plugins
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_var}/lib/%{name},/etc/{rc.d/init.d,sysconfig}}
+install -d $RPM_BUILD_ROOT{%{_localstatedir},/etc/{rc.d/init.d,sysconfig}}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -101,14 +102,13 @@ install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/ntop
 install packages/RedHat/ntop.conf.sample $RPM_BUILD_ROOT/etc/ntop.conf
 
 mv $RPM_BUILD_ROOT%{_libdir}/lib*Plugin*.so $RPM_BUILD_ROOT%{_libdir}/%{name}/plugins
-rm $RPM_BUILD_ROOT%{_libdir}/*.a
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %pre
 %groupadd -g 120 ntop
-%useradd -u 120 -d /var/lib/ntop -s /bin/false -c "ntop User" -g ntop ntop
+%useradd -u 120 -d %{_localstatedir} -s /bin/false -c "ntop User" -g ntop ntop
 
 %post
 /sbin/ldconfig
@@ -137,7 +137,7 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README THANKS
-%attr(770,root,ntop) %dir %{_var}/lib/%{name}
+%attr(770,root,ntop) %dir %{_localstatedir}
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_libdir}/lib*
 %attr(755,root,root) %{_datadir}/%{name}
