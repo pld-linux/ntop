@@ -61,7 +61,7 @@ case "$1" in
 		rm -f /var/lock/subsys/ntop >/dev/null 2>&1
 	else
 		msg_not_running ntop
-	fi	
+	fi
 	;;
   restart)
 	$0 stop
