@@ -38,8 +38,6 @@ case "$1" in
 	# Check if ntop is initialized
 	if [ ! -f "$NTOP_DIR/addressQueue.db" ]; then
 		nls "ntop is not initialized. Try \"%s init\" before start." "$0"
-		echo ""
-		nls "After setting password please press ^C to stop the daemon."
 		exit 6
 	fi
 
@@ -78,7 +76,7 @@ case "$1" in
 	fi
 	;;
   init)
-	ntop -P $NTOP_DIR @/etc/ntop.conf
+	ntop -P $NTOP_DIR @/etc/ntop.conf -A
 	;;
   status)
 	status ntop
