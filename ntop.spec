@@ -1,25 +1,23 @@
 # TODO:
-#  - service ntop init steals terminal (it doesnt finish nor background)
+#  - service ntop init steals terminal (it doesn't finish nor background)
 #  - paths wrong somewhere /var/lib/ntop/ntop is expected (should be without last path component)
 #  - /var/lib/ntop/* should be %ghost
-#  - .la files should be in -devel
-#  - ntop apperars to be daemon, so it should be in _sbindir not in _bindir
-#
 Summary:	Network monitoring tool
 Summary(pl):	Narzêdzie do monitorowania sieci
 Name:		ntop
-Version:	3.1
-Release:	0.2
+Version:	3.2
+Release:	0.6
 License:	GPL
 Group:		Networking
 Source0:	http://dl.sourceforge.net/ntop/%{name}-%{version}.tgz
-# Source0-md5:	1c9b4097c2e464b84f2fe8f6626d2b06
+# Source0-md5:	cd29a876b34a7dd76555e9acd8f160bb
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Patch0:		%{name}-plugins_makefile.patch
 Patch1:		%{name}-conf.patch
-Patch2:		%{name}-DESTDIR.patch
-Patch3:		%{name}-nolibs.patch
+Patch2:		%{name}-nolibs.patch
+Patch3:		%{name}-config.patch
+Patch4:		%{name}-am.patch
 URL:		http://www.ntop.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -41,15 +39,15 @@ BuildRequires:	zlib-devel
 #BuildRequires:	gdome2-devel
 #BuildRequires:	glib-devel
 #BuildRequires:	libxml2-devel
-PreReq:		rc-scripts
+Requires(post,postun):	/sbin/ldconfig
+Requires(post,preun):	/sbin/chkconfig
+Requires(postun):	/usr/sbin/groupdel
+Requires(postun):	/usr/sbin/userdel
 Requires(pre):	/bin/id
 Requires(pre):	/usr/bin/getgid
 Requires(pre):	/usr/sbin/groupadd
 Requires(pre):	/usr/sbin/useradd
-Requires(post,preun):	/sbin/chkconfig
-Requires(post,postun):	/sbin/ldconfig
-Requires(postun):	/usr/sbin/groupdel
-Requires(postun):	/usr/sbin/userdel
+Requires:	rc-scripts
 Provides:	group(ntop)
 Provides:	user(ntop)
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -65,11 +63,12 @@ ntop to narzêdzie, które pokazuje u¿ycie sieci w podobny sposób jak
 robi to popularna uniksowa komenda top.
 
 %prep
-%setup -q -n %{name}
+%setup -q
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 # kill libtool.m4 copy
 cp -f acinclude.m4.ntop acinclude.m4
@@ -92,16 +91,17 @@ cp -f acinclude.m4.ntop acinclude.m4
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_localstatedir},/etc/{rc.d/init.d,sysconfig}}
+install -d $RPM_BUILD_ROOT{%{_localstatedir},/etc/{rc.d/init.d,sysconfig},%{_sbindir}}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/ntop
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/ntop
-install packages/RedHat/ntop.conf.sample $RPM_BUILD_ROOT/etc/ntop.conf
+install packages/RedHat/ntop.conf.sample $RPM_BUILD_ROOT%{_sysconfdir}/ntop.conf
 
-mv $RPM_BUILD_ROOT%{_libdir}/lib*Plugin*.so $RPM_BUILD_ROOT%{_libdir}/%{name}/plugins
+# no -devel
+rm -f $RPM_BUILD_ROOT%{_libdir}{,/ntop/plugins}/*.la
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -138,14 +138,14 @@ fi
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README THANKS
 %attr(770,root,ntop) %dir %{_localstatedir}
-%attr(755,root,root) %{_bindir}/*
-%attr(755,root,root) %{_libdir}/lib*
+%attr(755,root,root) %{_sbindir}/*
+%attr(755,root,root) %{_libdir}/lib*.so
 %attr(755,root,root) %{_datadir}/%{name}
 %dir %{_libdir}/%{name}
 %attr(755,root,root) %{_libdir}/%{name}/plugins
 %{_mandir}/man*/*
 %attr(754,root,root) /etc/rc.d/init.d/ntop
-%attr(640,root,root) /etc/sysconfig/ntop
-%attr(750,root,ntop) %dir /etc/ntop
-%attr(640,root,ntop) %config(noreplace) %verify(not md5 mtime size) /etc/ntop/*
-%attr(644,root,ntop) %config(noreplace) %verify(not md5 mtime size) /etc/ntop.conf
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/ntop
+%attr(750,root,ntop) %dir %{_sysconfdir}/ntop
+%attr(640,root,ntop) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ntop/*
+%attr(644,root,ntop) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ntop.conf

@@ -26,13 +26,3 @@
  
  dnl> Functions and types
  AC_FUNC_ALLOCA
---- ntop/plugins/Makefile.am.orig	2005-05-19 11:11:10.000000000 +0200
-+++ ntop/plugins/Makefile.am	2005-05-19 11:22:00.000000000 +0200
-@@ -77,6 +77,7 @@
- 
- libxmldumpPlugin_la_SOURCES = xmldumpPlugin.c
- libxmldumpPlugin_la_LDFLAGS = -shared -release @PACKAGE_VERSION@ @DYN_FLAGS@
-+libxmldumpPlugin_la_LIBADD = # -lglib -lxml2 -lgdome broken anyway
- 
- #
- # Dependencies to allow ntop loading plugins on-place
