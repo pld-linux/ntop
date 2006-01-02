@@ -17,3 +17,14 @@
  lib_LTLIBRARIES = \
                    libicmpPlugin.la \
                    liblastSeenPlugin.la \
+--- ntop-3.2/plugins/Makefile.am~	2006-01-02 02:11:46.000000000 +0200
++++ ntop-3.2/plugins/Makefile.am	2006-01-02 02:47:33.000000000 +0200
+@@ -42,7 +42,7 @@
+ #
+ # The meat for ntop
+ #
+-lib_LTLIBRARIES = \
++plugin_LTLIBRARIES = \
+                   libicmpPlugin.la \
+                   liblastSeenPlugin.la \
+                   libnetflowPlugin.la \
