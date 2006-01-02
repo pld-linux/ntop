@@ -4,7 +4,7 @@ Summary:	Network monitoring tool
 Summary(pl):	Narzêdzie do monitorowania sieci
 Name:		ntop
 Version:	3.2
-Release:	0.7
+Release:	0.8
 License:	GPL
 Group:		Networking
 Source0:	http://dl.sourceforge.net/ntop/%{name}-%{version}.tgz
@@ -18,7 +18,7 @@ Patch3:		%{name}-config.patch
 Patch4:		%{name}-am.patch
 URL:		http://www.ntop.org/
 BuildRequires:	autoconf
-BuildRequires:	automake
+BuildRequires:	automake >= 1.6
 BuildRequires:	gawk
 BuildRequires:	gd-devel >= 2.0.1
 BuildRequires:	gdbm-devel >= 1.8.3
@@ -33,6 +33,7 @@ BuildRequires:	ncurses-devel >= 5.2
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	readline-devel >= 4.2
 BuildRequires:	rpmbuild(macros) >= 1.202
+BuildRequires:	rrdtool-devel >= 1.1.0
 BuildRequires:	zlib-devel
 Requires(post,postun):	/sbin/ldconfig
 Requires(post,preun):	/sbin/chkconfig
@@ -86,7 +87,7 @@ cp -f acinclude.m4.ntop acinclude.m4
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_localstatedir},/etc/{rc.d/init.d,sysconfig},%{_sbindir}}
+install -d $RPM_BUILD_ROOT{%{_localstatedir}/rrd,/etc/{rc.d/init.d,sysconfig},%{_sbindir}}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -131,8 +132,9 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog NEWS README THANKS
+%doc AUTHORS ChangeLog NEWS README THANKS docs/{1STRUN.txt,FAQ}
 %attr(770,root,ntop) %dir %{_localstatedir}
+%attr(770,root,ntop) %dir %{_localstatedir}/rrd
 %attr(755,root,root) %{_sbindir}/*
 %attr(755,root,root) %{_libdir}/lib*.so
 %attr(755,root,root) %{_datadir}/%{name}
@@ -143,4 +145,4 @@ fi
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/ntop
 %attr(750,root,ntop) %dir %{_sysconfdir}/ntop
 %attr(640,root,ntop) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ntop/*
-%attr(644,root,ntop) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ntop.conf
+%attr(660,root,ntop) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ntop.conf
