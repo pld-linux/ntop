@@ -1,0 +1,11 @@
+--- ntop-3.2/packages/RedHat/ntop.conf.sample	2006-01-02 02:11:46.000000000 +0200
++++ /tmp/ntop.conf	2006-01-02 02:33:19.000000000 +0200
+@@ -207,7 +207,7 @@
+ ## Thus a typical startup for ntop running as a daemon is:
+ #--daemon --use-syslog
+ 
+---use-syslog
++--use-syslog=daemon
+ 
+ 
+ ## You can also direct the messages to another file.  You'll want to
