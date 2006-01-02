@@ -1,0 +1,33 @@
+--- ntop-3.2/Makefile.am~	2006-01-02 02:50:33.000000000 +0200
++++ ntop-3.2/Makefile.am	2006-01-02 02:50:35.000000000 +0200
+@@ -97,7 +97,7 @@
+ #
+ # The Games
+ #
+-bin_PROGRAMS   = ntop
++sbin_PROGRAMS   = ntop
+ EXTRA_PROGRAMS = ntops sntop
+ bin_SCRIPTS    = 
+ 
+--- ntop-3.2/configure.in~	2006-01-02 02:53:17.000000000 +0200
++++ ntop-3.2/configure.in	2006-01-02 02:53:46.000000000 +0200
+@@ -234,7 +234,7 @@
+ AC_PROG_INSTALL
+ AC_PROG_LN_S
+ AC_PROG_MAKE_SET
+-AC_PROG_RANLIB
++AC_PROG_LIBTOOL
+ 
+ NTOPCONFIGDEBUG_SETTINGS([After ac stuff])
+ 
+--- ntop-3.2/configure.in~	2006-01-02 02:54:22.000000000 +0200
++++ ntop-3.2/configure.in	2006-01-02 02:58:04.000000000 +0200
+@@ -61,7 +61,7 @@
+ HAS_ERROR=
+ HAS_WARNING=
+ 
+-NTOP_VERSION_EXTRA=" SourceForge .tgz"
++NTOP_VERSION_EXTRA=" PLD Linux RPM"
+ 
+ echo
+ echo "Welcome to $PACKAGE_NAME, Version $PACKAGE_VERSION $NTOP_VERSION_EXTRA"
