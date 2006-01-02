@@ -1,12 +1,10 @@
 # TODO:
-#  - service ntop init steals terminal (it doesn't finish nor background)
 #  - paths wrong somewhere /var/lib/ntop/ntop is expected (should be without last path component)
-#  - /var/lib/ntop/* should be %ghost
 Summary:	Network monitoring tool
 Summary(pl):	Narzêdzie do monitorowania sieci
 Name:		ntop
 Version:	3.2
-Release:	0.6
+Release:	0.7
 License:	GPL
 Group:		Networking
 Source0:	http://dl.sourceforge.net/ntop/%{name}-%{version}.tgz
@@ -24,6 +22,8 @@ BuildRequires:	automake
 BuildRequires:	gawk
 BuildRequires:	gd-devel >= 2.0.1
 BuildRequires:	gdbm-devel >= 1.8.3
+BuildRequires:	gdome2-devel
+BuildRequires:	glib2-devel
 BuildRequires:	libpcap-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libtiff-devel
@@ -34,11 +34,6 @@ BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	readline-devel >= 4.2
 BuildRequires:	rpmbuild(macros) >= 1.202
 BuildRequires:	zlib-devel
-# for xmldump plugin (disabled as it's broken anyway - wants additional -I
-# to enable, and then fails to build)
-#BuildRequires:	gdome2-devel
-#BuildRequires:	glib-devel
-#BuildRequires:	libxml2-devel
 Requires(post,postun):	/sbin/ldconfig
 Requires(post,preun):	/sbin/chkconfig
 Requires(postun):	/usr/sbin/groupdel
