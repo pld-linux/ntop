@@ -36,7 +36,7 @@ RETVAL=0
 case "$1" in
   start)
 	# Check if ntop is initialized
-	if [ ! -f "$NTOP_DIR/addressQueue.db" ]; then
+	if [ ! -f "$NTOP_DIR/ntop_pw.db" ]; then
 		nls "ntop is not initialized. Try \"%s init\" before start." "$0"
 		exit 6
 	fi
