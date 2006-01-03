@@ -1,10 +1,8 @@
-# TODO:
-#  - paths wrong somewhere /var/lib/ntop/ntop is expected (should be without last path component)
 Summary:	Network monitoring tool
 Summary(pl):	Narzêdzie do monitorowania sieci
 Name:		ntop
 Version:	3.2
-Release:	0.8
+Release:	0.9
 License:	GPL
 Group:		Networking
 Source0:	http://dl.sourceforge.net/ntop/%{name}-%{version}.tgz
@@ -48,7 +46,7 @@ Provides:	group(ntop)
 Provides:	user(ntop)
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_localstatedir		/var/lib/ntop
+%define		_localstatedir		/var/lib
 
 %description
 ntop is a tool that shows the network usage, similar to what the
@@ -87,7 +85,7 @@ cp -f acinclude.m4.ntop acinclude.m4
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_localstatedir}/rrd,/etc/{rc.d/init.d,sysconfig},%{_sbindir}}
+install -d $RPM_BUILD_ROOT{%{_localstatedir}/ntop/rrd,/etc/{rc.d/init.d,sysconfig},%{_sbindir}}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -104,7 +102,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %pre
 %groupadd -g 120 ntop
-%useradd -u 120 -d %{_localstatedir} -s /bin/false -c "ntop User" -g ntop ntop
+%useradd -u 120 -d %{_localstatedir}/ntop -s /bin/false -c "ntop User" -g ntop ntop
 
 %post
 /sbin/ldconfig
@@ -133,8 +131,8 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README THANKS docs/{1STRUN.txt,FAQ}
-%attr(770,root,ntop) %dir %{_localstatedir}
-%attr(770,root,ntop) %dir %{_localstatedir}/rrd
+%attr(770,root,ntop) %dir %{_localstatedir}/ntop
+%attr(770,root,ntop) %dir %{_localstatedir}/ntop/rrd
 %attr(755,root,root) %{_sbindir}/*
 %attr(755,root,root) %{_libdir}/lib*.so
 %attr(755,root,root) %{_datadir}/%{name}
