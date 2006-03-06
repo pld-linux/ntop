@@ -31,6 +31,7 @@ BuildRequires:	ncurses-devel >= 5.2
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	readline-devel >= 4.2
 BuildRequires:	rpmbuild(macros) >= 1.202
+BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRequires:	rrdtool-devel >= 1.1.0
 BuildRequires:	zlib-devel
 Requires(post,postun):	/sbin/ldconfig
@@ -107,17 +108,11 @@ rm -rf $RPM_BUILD_ROOT
 %post
 /sbin/ldconfig
 /sbin/chkconfig --add ntop
-if [ -f /var/lock/subsys/ntop ]; then
-	/etc/rc.d/init.d/ntop restart >&2
-else
-	echo "Run \"/etc/rc.d/init.d/ntop start\" to start ntop daemon." >&2
-fi
+%service ntop restart "ntop daemon"
 
 %preun
 if [ "$1" = "0" ]; then
-	if [ -f /var/lock/subsys/ntop ]; then
-		/etc/rc.d/init.d/ntop stop 1>&2
-	fi
+	%service ntop stop
 	/sbin/chkconfig --del ntop
 fi
 
