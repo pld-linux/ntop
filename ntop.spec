@@ -1,5 +1,5 @@
 Summary:	Network monitoring tool
-Summary(pl):	Narzêdzie do monitorowania sieci
+Summary(pl.UTF-8):   NarzÄ™dzie do monitorowania sieci
 Name:		ntop
 Version:	3.2
 Release:	2
@@ -53,8 +53,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 ntop is a tool that shows the network usage, similar to what the
 popular top Unix command does.
 
-%description -l pl
-ntop to narzêdzie, które pokazuje u¿ycie sieci w podobny sposób jak
+%description -l pl.UTF-8
+ntop to narzÄ™dzie, ktÃ³re pokazuje uÅ¼ycie sieci w podobny sposÃ³b jak
 robi to popularna uniksowa komenda top.
 
 %prep
