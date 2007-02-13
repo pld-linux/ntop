@@ -1,5 +1,5 @@
 Summary:	Network monitoring tool
-Summary(pl.UTF-8):   Narzędzie do monitorowania sieci
+Summary(pl.UTF-8):	Narzędzie do monitorowania sieci
 Name:		ntop
 Version:	3.2
 Release:	2
