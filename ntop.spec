@@ -1,17 +1,16 @@
 Summary:	Network monitoring tool
 Summary(pl.UTF-8):	Narzędzie do monitorowania sieci
 Name:		ntop
-Version:	3.2
-Release:	2
+Version:	3.3
+Release:	1
 License:	GPL
 Group:		Networking
-Source0:	http://dl.sourceforge.net/ntop/%{name}-%{version}.tgz
-# Source0-md5:	cd29a876b34a7dd76555e9acd8f160bb
+Source0:	http://dl.sourceforge.net/ntop/%{name}-%{version}.tar.gz
+# Source0-md5:	a0e52a85587c8a5519d822d04862dab4
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Patch0:		%{name}-plugins_makefile.patch
 Patch1:		%{name}-conf.patch
-Patch2:		%{name}-nolibs.patch
 Patch3:		%{name}-config.patch
 Patch4:		%{name}-am.patch
 URL:		http://www.ntop.org/
@@ -61,7 +60,6 @@ robi to popularna uniksowa komenda top.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 %patch3 -p1
 %patch4 -p1
 
