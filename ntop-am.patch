@@ -6,19 +6,8 @@
  #
 -bin_PROGRAMS   = ntop
 +sbin_PROGRAMS   = ntop
- EXTRA_PROGRAMS = ntops sntop
+ EXTRA_PROGRAMS = ntops
  bin_SCRIPTS    = 
- 
---- ntop-3.2/configure.in~	2006-01-02 02:53:17.000000000 +0200
-+++ ntop-3.2/configure.in	2006-01-02 02:53:46.000000000 +0200
-@@ -234,7 +234,7 @@
- AC_PROG_INSTALL
- AC_PROG_LN_S
- AC_PROG_MAKE_SET
--AC_PROG_RANLIB
-+AC_PROG_LIBTOOL
- 
- NTOPCONFIGDEBUG_SETTINGS([After ac stuff])
  
 --- ntop-3.2/configure.in~	2006-01-02 02:54:22.000000000 +0200
 +++ ntop-3.2/configure.in	2006-01-02 02:58:04.000000000 +0200
@@ -26,74 +15,9 @@
  HAS_ERROR=
  HAS_WARNING=
  
--NTOP_VERSION_EXTRA=" SourceForge .tgz"
+-NTOP_VERSION_EXTRA=""
 +NTOP_VERSION_EXTRA=" PLD Linux RPM"
  
  echo
  echo "Welcome to $PACKAGE_NAME, Version $PACKAGE_VERSION $NTOP_VERSION_EXTRA"
-diff -ur ntop-3.2/Makefile.am ntop-3.2.am/Makefile.am
---- ntop-3.2/Makefile.am	2006-01-02 12:32:14.000000000 +0200
-+++ ntop-3.2.am/Makefile.am	2006-01-02 12:28:11.000000000 +0200
-@@ -46,13 +46,6 @@
- CLEANFILES     = $(DISTCLEANFILES)
- INSTALLCLEANFILES = addressQueue.db dnsCache.db
- 
--#
--# Fake out the missing tests for the auto* tools
--#
--ACLOCAL = /bin/sh ./missing --run echo
--AUTOCONF = /bin/sh ./missing --run echo
--AUTOMAKE = /bin/sh ./missing --run echo
--AUTOHEADER = /bin/sh ./missing --run echo
- 
- # A list of all the files in the current directory which can be regenerated
- MAINTAINERCLEANFILES = COPYING Makefile.in aclocal.m4 config.guess \
-diff -ur ntop-3.2/configure.in ntop-3.2.am/configure.in
---- ntop-3.2/configure.in	2006-01-02 12:32:14.000000000 +0200
-+++ ntop-3.2.am/configure.in	2006-01-02 12:27:48.000000000 +0200
-@@ -1827,6 +1827,7 @@
-       AC_DEFINE(HAVE_ISINF,1,we have the isinf function)],[AC_MSG_RESULT(no)])])
- 
- dnl> XML dump (plugin)
-+AM_PATH_GLIB_2_0(2.0.0, CFLAGS="$CFLAGS $GLIB_CFLAGS", AC_MSG_ERROR(GLib2 distribution not found.), gmodule)
- AC_CHECK_HEADERS(glib.h glibconfig.h)
- AC_CHECK_HEADERS(gdome.h)
- 
-diff -u ntop-3.2/configure.in ntop-3.2.gdome/configure.in
---- ntop-3.2/configure.in	2006-01-02 15:42:02.000000000 +0200
-+++ ntop-3.2.gdome/configure.in	2006-01-02 14:45:38.000000000 +0200
-@@ -1827,9 +1827,21 @@
-       AC_DEFINE(HAVE_ISINF,1,we have the isinf function)],[AC_MSG_RESULT(no)])])
- 
- dnl> XML dump (plugin)
--AM_PATH_GLIB_2_0(2.0.0, CFLAGS="$CFLAGS $GLIB_CFLAGS", AC_MSG_ERROR(GLib2 distribution not found.), gmodule)
-+AM_PATH_GLIB_2_0(2.0.0, , AC_MSG_ERROR(GLib2 distribution not found.), gmodule)
-+
-+CPPFLAGS_save="$CPPFLAGS"
-+CPPFLAGS="$CPPFLAGS $GLIB_CFLAGS"
- AC_CHECK_HEADERS(glib.h glibconfig.h)
-+CPPFLAGS="$CPPFLAGS_save"
-+
-+PKG_CHECK_MODULES(GDOME, gdome2 >= 0.7.0,, AC_MSG_ERROR(could not find Gdome2))
-+AC_SUBST(GDOME_CFLAGS)
-+AC_SUBST(GDOME_LIBS)
-+
-+CPPFLAGS_save="$CPPFLAGS"
-+CPPFLAGS="$CPPFLAGS $GDOME_CFLAGS"
- AC_CHECK_HEADERS(gdome.h)
-+CPPFLAGS="$CPPFLAGS_save"
- 
- AC_TYPE_PID_T
- dnl> Autoconf2: AC_CHECK_TYPE(pid_t, int)
-diff -u ntop-3.2/plugins/Makefile.am ntop-3.2.gdome/plugins/Makefile.am
---- ntop-3.2/plugins/Makefile.am	2006-01-02 15:42:02.000000000 +0200
-+++ ntop-3.2.gdome/plugins/Makefile.am	2006-01-02 15:41:18.000000000 +0200
-@@ -84,7 +84,7 @@
- 
- libxmldumpPlugin_la_SOURCES = xmldumpPlugin.c
- libxmldumpPlugin_la_LDFLAGS = -shared -release @PACKAGE_VERSION@ @DYN_FLAGS@
--libxmldumpPlugin_la_CFLAGS = $(AM_CFLAGS)
-+libxmldumpPlugin_la_CFLAGS = $(AM_CFLAGS) $(GDOME_CFLAGS) $(GLIB_CFLAGS)
- 
- #
- # Dependencies to allow ntop loading plugins on-place
+

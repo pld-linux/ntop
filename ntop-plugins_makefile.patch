@@ -1,6 +1,6 @@
 --- ntop/plugins/Makefile.am	2004-11-11 10:12:52.000000000 +0000
 +++ ntop.new/plugins/Makefile.am	2005-01-01 21:09:57.376911224 +0000
-@@ -42,16 +42,6 @@
+@@ -42,16 +42,8 @@
  #
  # The meat for ntop
  #
@@ -9,20 +9,10 @@
 -                  lastSeenPlugin.so \
 -                  netflowPlugin.so \
 -                  pdaPlugin.so \
+-                  remotePlugin.so \
 -                  rrdPlugin.so \
--                  snmpPlugin.so \
--                  sflowPlugin.so \
--                  xmldumpPlugin.so
--
- lib_LTLIBRARIES = \
-                   libicmpPlugin.la \
-                   liblastSeenPlugin.la \
---- ntop-3.2/plugins/Makefile.am~	2006-01-02 02:11:46.000000000 +0200
-+++ ntop-3.2/plugins/Makefile.am	2006-01-02 02:47:33.000000000 +0200
-@@ -42,7 +42,7 @@
- #
- # The meat for ntop
- #
+-                  sflowPlugin.so
+ 
 -lib_LTLIBRARIES = \
 +plugin_LTLIBRARIES = \
                    libicmpPlugin.la \
