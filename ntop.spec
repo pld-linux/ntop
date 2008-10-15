@@ -1,5 +1,5 @@
-# Conditional build
 #
+# Conditional build:
 %bcond_with	mysql	# with mysql support
 #
 Summary:	Network monitoring tool
@@ -44,7 +44,6 @@ Requires(pre):	/bin/id
 Requires(pre):	/usr/bin/getgid
 Requires(pre):	/usr/sbin/groupadd
 Requires(pre):	/usr/sbin/useradd
-%{?with_mysql:Requires:	mysql}
 Requires:	rc-scripts
 Provides:	group(ntop)
 Provides:	user(ntop)
