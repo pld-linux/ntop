@@ -1,18 +1,21 @@
+# Conditional build
+#
+%bcond_with	mysql	# with mysql support
+#
 Summary:	Network monitoring tool
 Summary(pl.UTF-8):	Narzędzie do monitorowania sieci
 Name:		ntop
-Version:	3.3
-Release:	1
+Version:	3.3.8
+Release:	0.1
 License:	GPL
 Group:		Networking
 Source0:	http://dl.sourceforge.net/ntop/%{name}-%{version}.tar.gz
-# Source0-md5:	a0e52a85587c8a5519d822d04862dab4
+# Source0-md5:	19c6a582c285ffae18bf0c3b599d184e
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
-Patch0:		%{name}-plugins_makefile.patch
-Patch1:		%{name}-conf.patch
-Patch3:		%{name}-config.patch
-Patch4:		%{name}-am.patch
+Patch0:		%{name}-conf.patch
+Patch1:		%{name}-config.patch
+Patch2:		%{name}-am.patch
 URL:		http://www.ntop.org/
 BuildRequires:	autoconf
 BuildRequires:	automake >= 1.6
@@ -41,6 +44,7 @@ Requires(pre):	/bin/id
 Requires(pre):	/usr/bin/getgid
 Requires(pre):	/usr/sbin/groupadd
 Requires(pre):	/usr/sbin/useradd
+%{?with_mysql:Requires:	mysql}
 Requires:	rc-scripts
 Provides:	group(ntop)
 Provides:	user(ntop)
@@ -60,25 +64,26 @@ robi to popularna uniksowa komenda top.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch3 -p1
-%patch4 -p1
+%patch2 -p1
 
-# kill libtool.m4 copy
-cp -f acinclude.m4.ntop acinclude.m4
+# taken from autogen.sh 
+cp -f /usr/share/aclocal/libtool.m4 libtool.m4.in
+cat acinclude.m4.in libtool.m4.in acinclude.m4.ntop > acinclude.m4
 
 %build
 %{__libtoolize}
 %{__aclocal}
 %{__autoconf}
+%{__autoheader}
 %{__automake}
 # "verified.awk -u" calls require gawk
 %configure \
 	AWK=gawk \
 	--disable-static \
-	--enable-i18n \
 	--with-gnu-ld \
 	--with-ossl-root=%{_prefix} \
-	--with-tcpwrap
+	--with-tcpwrap \
+	%{?with_mysql:--enable-mysql}
 
 %{__make}
 
