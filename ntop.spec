@@ -5,12 +5,12 @@
 Summary:	Network monitoring tool
 Summary(pl.UTF-8):	Narzędzie do monitorowania sieci
 Name:		ntop
-Version:	3.3.9
+Version:	3.3.10
 Release:	1
 License:	GPL
 Group:		Networking
 Source0:	http://dl.sourceforge.net/ntop/%{name}-%{version}.tar.gz
-# Source0-md5:	0c22038e0f2aa003110437b5a5d5a6a5
+# Source0-md5:	6e2ffa90d5f935c8f03d88a5dd19a866
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Patch0:		%{name}-conf.patch
@@ -24,6 +24,7 @@ BuildRequires:	gd-devel >= 2.0.1
 BuildRequires:	gdbm-devel >= 1.8.3
 BuildRequires:	gdome2-devel
 BuildRequires:	glib2-devel
+BuildRequires:	libevent-devel >= 1.4.0
 BuildRequires:	libpcap-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libtiff-devel
