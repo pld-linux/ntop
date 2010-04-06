@@ -1,7 +1,10 @@
+# TODO
+# - see geoip patch from fc
+# - use system lua
 #
 # Conditional build:
 %bcond_with	mysql	# with mysql support
-#
+
 Summary:	Network monitoring tool
 Summary(pl.UTF-8):	Narzędzie do monitorowania sieci
 Name:		ntop
@@ -9,7 +12,7 @@ Version:	3.3.10
 Release:	2
 License:	GPL
 Group:		Networking
-Source0:	http://dl.sourceforge.net/ntop/%{name}-%{version}.tar.gz
+Source0:	http://downloads.sourceforge.net/ntop/%{name}-%{version}.tar.gz
 # Source0-md5:	6e2ffa90d5f935c8f03d88a5dd19a866
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
@@ -17,6 +20,7 @@ Patch0:		%{name}-conf.patch
 Patch1:		%{name}-config.patch
 Patch2:		%{name}-am.patch
 URL:		http://www.ntop.org/
+BuildRequires:	GeoIP-devel
 BuildRequires:	autoconf
 BuildRequires:	automake >= 1.6
 BuildRequires:	gawk
@@ -30,10 +34,10 @@ BuildRequires:	libpng-devel
 BuildRequires:	libtiff-devel
 BuildRequires:	libtool
 BuildRequires:	libwrap-devel
+BuildRequires:	lua-devel
 BuildRequires:	ncurses-devel >= 5.2
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	readline-devel >= 4.2
-BuildRequires:	rpmbuild(macros) >= 1.202
 BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRequires:	rrdtool-devel >= 1.1.0
 BuildRequires:	zlib-devel
@@ -66,8 +70,8 @@ robi to popularna uniksowa komenda top.
 %patch1 -p1
 %patch2 -p1
 
-# taken from autogen.sh 
-cp -f /usr/share/aclocal/libtool.m4 libtool.m4.in
+# taken from autogen.sh
+cp -f %{_aclocaldir}/libtool.m4 libtool.m4.in
 cat acinclude.m4.in libtool.m4.in acinclude.m4.ntop > acinclude.m4
 
 %build
