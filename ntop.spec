@@ -1,7 +1,7 @@
 # TODO
 # - see if it uses system files for ettercap and geoip files we did not package
-# - see if /etc/ntop/oui.txt.gz can be externalized (ethernet vendor id file),
-#   hwdata uses same file for example. url: http://linux.die.net/man/1/get-oui
+# - see if /etc/ntop/oui.txt.gz can be externalized (whatever it is)
+# - see where plugins are needed in plugin dir or in system dir
 #
 # Conditional build:
 %bcond_with	mysql	# with mysql support
@@ -41,6 +41,7 @@ BuildRequires:	libtool
 BuildRequires:	libwrap-devel
 BuildRequires:	lua51-devel
 BuildRequires:	ncurses-devel >= 5.2
+BuildRequires:	net-snmp-devel
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	readline-devel >= 4.2
 BuildRequires:	rpmbuild(macros) >= 1.268
@@ -100,6 +101,7 @@ cat acinclude.m4.in libtool.m4.in acinclude.m4.ntop > acinclude.m4
 	--with-gnu-ld \
 	--with-ossl-root=%{_prefix} \
 	--with-tcpwrap \
+	--enable-snmp \
 	%{?with_mysql:--enable-mysql}
 
 %{__make}
@@ -116,6 +118,11 @@ install -d $RPM_BUILD_ROOT{%{_localstatedir}/ntop/rrd,/etc/{rc.d/init.d,sysconfi
 install -p %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/ntop
 cp -a %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/ntop
 cp -a packages/RedHat/ntop.conf.sample $RPM_BUILD_ROOT%{_sysconfdir}/ntop.conf
+
+# these are identical files according to find-debuginfo
+for p in icmpPlugin lastSeenPlugin netflowPlugin cpacketPlugin rrdPlugin sflowPlugin; do
+	ln -snf ../../lib$p-%{version}.so $RPM_BUILD_ROOT%{_libdir}/ntop/plugins/$p.so
+done
 
 # no -devel
 rm -f $RPM_BUILD_ROOT%{_libdir}{,/ntop/plugins}/*.la
@@ -148,16 +155,19 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README THANKS docs/{1STRUN.txt,FAQ}
-%attr(770,root,ntop) %dir %{_localstatedir}/ntop
-%attr(770,root,ntop) %dir %{_localstatedir}/ntop/rrd
-%attr(755,root,root) %{_sbindir}/*
+%attr(750,root,ntop) %dir %{_sysconfdir}/ntop
+%attr(640,root,ntop) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ntop/ntop-cert.pem
+%attr(640,root,ntop) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ntop/oui.txt.gz
+%attr(640,root,ntop) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ntop/specialMAC.txt.gz
+%attr(660,root,ntop) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ntop.conf
+%attr(754,root,root) /etc/rc.d/init.d/ntop
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/ntop
+%attr(755,root,root) %{_sbindir}/ntop
 %attr(755,root,root) %{_libdir}/lib*.so
 %attr(755,root,root) %{_datadir}/%{name}
 %dir %{_libdir}/%{name}
 %attr(755,root,root) %{_libdir}/%{name}/plugins
-%{_mandir}/man*/*
-%attr(754,root,root) /etc/rc.d/init.d/ntop
-%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/ntop
-%attr(750,root,ntop) %dir %{_sysconfdir}/ntop
-%attr(640,root,ntop) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ntop/*
-%attr(660,root,ntop) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ntop.conf
+%{_mandir}/man8/ntop.8*
+
+%attr(770,root,ntop) %dir %{_localstatedir}/ntop
+%attr(770,root,ntop) %dir %{_localstatedir}/ntop/rrd
