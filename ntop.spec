@@ -1,6 +1,6 @@
 # TODO
-# - see geoip patch from fc
-# - use system lua
+# - see if it uses system files for ettercap and geoip files we did not package
+# - see if /etc/ntop/oui.txt.gz can be externalized (whatever it is)
 #
 # Conditional build:
 %bcond_with	mysql	# with mysql support
@@ -9,7 +9,7 @@ Summary:	Network monitoring tool
 Summary(pl.UTF-8):	Narzędzie do monitorowania sieci
 Name:		ntop
 Version:	3.3.10
-Release:	2
+Release:	3
 License:	GPL
 Group:		Networking
 Source0:	http://downloads.sourceforge.net/ntop/%{name}-%{version}.tar.gz
@@ -19,6 +19,8 @@ Source2:	%{name}.sysconfig
 Patch0:		%{name}-conf.patch
 Patch1:		%{name}-config.patch
 Patch2:		%{name}-am.patch
+Patch3:		%{name}-lua_wget.patch
+Patch4:		%{name}-geoip.patch
 URL:		http://www.ntop.org/
 BuildRequires:	GeoIP-devel
 BuildRequires:	autoconf
@@ -34,7 +36,7 @@ BuildRequires:	libpng-devel
 BuildRequires:	libtiff-devel
 BuildRequires:	libtool
 BuildRequires:	libwrap-devel
-BuildRequires:	lua-devel
+BuildRequires:	lua51-devel
 BuildRequires:	ncurses-devel >= 5.2
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	readline-devel >= 4.2
@@ -50,6 +52,10 @@ Requires(pre):	/usr/bin/getgid
 Requires(pre):	/usr/sbin/groupadd
 Requires(pre):	/usr/sbin/useradd
 Requires:	rc-scripts
+# maybe is optional, needs checking
+Suggests:	GeoIP-db-City
+Suggests:	GeoIP-db-IPASNum
+Suggests:	ettercap
 Provides:	group(ntop)
 Provides:	user(ntop)
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -69,6 +75,8 @@ robi to popularna uniksowa komenda top.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
+%patch4 -p1
 
 # taken from autogen.sh
 cp -f %{_aclocaldir}/libtool.m4 libtool.m4.in
@@ -96,11 +104,13 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_localstatedir}/ntop/rrd,/etc/{rc.d/init.d,sysconfig},%{_sbindir}}
 
 %{__make} install \
+	GEOIP_FILES= \
+	ETTER_PASSIVE= \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/ntop
-install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/ntop
-install packages/RedHat/ntop.conf.sample $RPM_BUILD_ROOT%{_sysconfdir}/ntop.conf
+install -p %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/ntop
+cp -a %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/ntop
+cp -a packages/RedHat/ntop.conf.sample $RPM_BUILD_ROOT%{_sysconfdir}/ntop.conf
 
 # no -devel
 rm -f $RPM_BUILD_ROOT%{_libdir}{,/ntop/plugins}/*.la
