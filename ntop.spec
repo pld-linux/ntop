@@ -1,6 +1,7 @@
 # TODO
 # - see if it uses system files for ettercap and geoip files we did not package
-# - see if /etc/ntop/oui.txt.gz can be externalized (whatever it is)
+# - see if /etc/ntop/oui.txt.gz can be externalized (ethernet vendor id file),
+#   hwdata uses same file for example. url: http://linux.die.net/man/1/get-oui
 #
 # Conditional build:
 %bcond_with	mysql	# with mysql support
@@ -21,6 +22,8 @@ Patch1:		%{name}-config.patch
 Patch2:		%{name}-am.patch
 Patch3:		%{name}-lua_wget.patch
 Patch4:		%{name}-geoip.patch
+Patch5:		%{name}-http_c.patch
+Patch6:		%{name}-running-user.patch
 URL:		http://www.ntop.org/
 BuildRequires:	GeoIP-devel
 BuildRequires:	autoconf
@@ -77,6 +80,8 @@ robi to popularna uniksowa komenda top.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
+%patch6 -p1
 
 # taken from autogen.sh
 cp -f %{_aclocaldir}/libtool.m4 libtool.m4.in
