@@ -1,6 +1,5 @@
 # TODO
-# - see if it uses system files for ettercap and geoip files we did not package
-# - see if /etc/ntop/oui.txt.gz can be externalized (whatever it is)
+# - see if it uses system files for ettercap and geoip, ieee-oui files we did not package
 # - see where plugins are needed in plugin dir or in system dir
 #
 # Conditional build:
@@ -24,6 +23,7 @@ Patch3:		%{name}-lua_wget.patch
 Patch4:		%{name}-geoip.patch
 Patch5:		%{name}-http_c.patch
 Patch6:		%{name}-running-user.patch
+Patch7:		ieee-oui.patch
 URL:		http://www.ntop.org/
 BuildRequires:	GeoIP-devel
 BuildRequires:	autoconf
@@ -55,11 +55,12 @@ Requires(pre):	/bin/id
 Requires(pre):	/usr/bin/getgid
 Requires(pre):	/usr/sbin/groupadd
 Requires(pre):	/usr/sbin/useradd
-Requires:	rc-scripts
+Requires:	rc-scripts >= 0.4.2.8
 # maybe is optional, needs checking
 Suggests:	GeoIP-db-City
 Suggests:	GeoIP-db-IPASNum
 Suggests:	ettercap
+Requires:	ieee-oui
 Provides:	group(ntop)
 Provides:	user(ntop)
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -83,6 +84,9 @@ robi to popularna uniksowa komenda top.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
+
+rm oui.txt.gz
 
 # taken from autogen.sh
 cp -f %{_aclocaldir}/libtool.m4 libtool.m4.in
@@ -112,6 +116,7 @@ install -d $RPM_BUILD_ROOT{%{_localstatedir}/ntop/rrd,/etc/{rc.d/init.d,sysconfi
 
 %{__make} install \
 	GEOIP_FILES= \
+	OUI_FILES= \
 	ETTER_PASSIVE= \
 	DESTDIR=$RPM_BUILD_ROOT
 
@@ -123,6 +128,8 @@ cp -a packages/RedHat/ntop.conf.sample $RPM_BUILD_ROOT%{_sysconfdir}/ntop.conf
 for p in icmpPlugin lastSeenPlugin netflowPlugin cpacketPlugin rrdPlugin sflowPlugin; do
 	ln -snf ../../lib$p-%{version}.so $RPM_BUILD_ROOT%{_libdir}/ntop/plugins/$p.so
 done
+
+ln -s %{_datadir}/oui.txt $RPM_BUILD_ROOT%{_sysconfdir}/oui.txt
 
 # no -devel
 rm -f $RPM_BUILD_ROOT%{_libdir}{,/ntop/plugins}/*.la
@@ -157,7 +164,7 @@ fi
 %doc AUTHORS ChangeLog NEWS README THANKS docs/{1STRUN.txt,FAQ}
 %attr(750,root,ntop) %dir %{_sysconfdir}/ntop
 %attr(640,root,ntop) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ntop/ntop-cert.pem
-%attr(640,root,ntop) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ntop/oui.txt.gz
+%attr(640,root,ntop) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ntop/oui.txt
 %attr(640,root,ntop) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ntop/specialMAC.txt.gz
 %attr(660,root,ntop) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ntop.conf
 %attr(754,root,root) /etc/rc.d/init.d/ntop

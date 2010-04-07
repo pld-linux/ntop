@@ -1,0 +1,16 @@
+--- ntop-3.3.10/Makefile.am~	2010-04-07 01:05:52.000000000 +0300
++++ ntop-3.3.10/Makefile.am	2010-04-07 09:18:06.085523903 +0300
+@@ -77,9 +77,12 @@
+ 	GeoIPASNum.dat \
+ 	GeoLiteCity.dat
+ 
++OUI_FILES = \
++	oui.txt.gz
++
+ NTOPDATA = ntop-cert.pem \
+            $(ETTER_PASSIVE) \
+-           oui.txt.gz \
++           %(OUI_FILES) \
+            specialMAC.txt.gz \
+ 		   $(GEOIP_FILES)
+ 

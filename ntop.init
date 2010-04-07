@@ -44,7 +44,7 @@ case "$1" in
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/ntop ]; then
 		msg_starting ntop
-		daemon ntop @/etc/ntop.conf -d -P $NTOP_DIR
+		daemon --redirdfs /usr/sbin/ntop @/etc/ntop.conf -d -P $NTOP_DIR
 		RETVAL=$?
 		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/ntop
 	else
