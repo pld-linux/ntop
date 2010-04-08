@@ -129,7 +129,7 @@ for p in icmpPlugin lastSeenPlugin netflowPlugin cpacketPlugin rrdPlugin sflowPl
 	ln -snf ../../lib$p-%{version}.so $RPM_BUILD_ROOT%{_libdir}/ntop/plugins/$p.so
 done
 
-ln -s %{_datadir}/oui.txt $RPM_BUILD_ROOT%{_sysconfdir}/oui.txt
+ln -s %{_datadir}/oui.txt $RPM_BUILD_ROOT%{_sysconfdir}/ntop/oui.txt
 
 # no -devel
 rm -f $RPM_BUILD_ROOT%{_libdir}{,/ntop/plugins}/*.la
