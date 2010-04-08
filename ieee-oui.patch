@@ -10,7 +10,7 @@
  NTOPDATA = ntop-cert.pem \
             $(ETTER_PASSIVE) \
 -           oui.txt.gz \
-+           %(OUI_FILES) \
++           $(OUI_FILES) \
             specialMAC.txt.gz \
  		   $(GEOIP_FILES)
  
