@@ -43,6 +43,7 @@ BuildRequires:	lua51-devel
 BuildRequires:	ncurses-devel >= 5.2
 BuildRequires:	net-snmp-devel
 BuildRequires:	openssl-devel >= 0.9.7d
+BuildRequires:	perl-devel
 BuildRequires:	readline-devel >= 4.2
 BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRequires:	rrdtool-devel >= 1.1.0
