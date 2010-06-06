@@ -9,7 +9,7 @@ Summary:	Network monitoring tool
 Summary(pl.UTF-8):	Narzędzie do monitorowania sieci
 Name:		ntop
 Version:	3.3.10
-Release:	4
+Release:	5
 License:	GPL
 Group:		Networking
 Source0:	http://downloads.sourceforge.net/ntop/%{name}-%{version}.tar.gz
