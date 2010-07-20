@@ -59,8 +59,8 @@ Requires(pre):	/usr/bin/getgid
 Requires(pre):	/usr/sbin/groupadd
 Requires(pre):	/usr/sbin/useradd
 Requires:	rc-scripts >= 0.4.2.8
-# maybe is optional, needs checking
 Requires:	ieee-oui
+# maybe is optional, needs checking
 Suggests:	GeoIP-db-City
 Suggests:	GeoIP-db-IPASNum
 Suggests:	ettercap
