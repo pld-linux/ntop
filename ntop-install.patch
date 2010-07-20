@@ -1,0 +1,17 @@
+--- ntop-4.0/Makefile.am~	2010-07-20 10:00:13.661612572 +0200
++++ ntop-4.0/Makefile.am	2010-07-20 10:51:37.493609677 +0200
+@@ -413,10 +413,10 @@
+ 	  echo "...Deleting prior file, $(ETTER_PASSIVE).old..."; \
+ 	  rm -rf $(ETTER_PASSIVE).old; \
+ 	fi;
+-	@if test -f $(ETTER_PASSIVE); then \
+-	  echo "...Moving current $(ETTER_PASSIVE) to $(ETTER_PASSIVE).old"; \
+-	  mv $(ETTER_PASSIVE) $(ETTER_PASSIVE).old; \
+-	fi;
++#	@if test -f $(ETTER_PASSIVE); then \
++#	  echo "...Moving current $(ETTER_PASSIVE) to $(ETTER_PASSIVE).old"; \
++#	  mv $(ETTER_PASSIVE) $(ETTER_PASSIVE).old; \
++#	fi;
+ 	@for file in $(ETTER_PASSIVE) $(ETTER_PASSIVE).gz \
+ 		$(ETTER_PASSIVE_FILE) $(ETTER_PASSIVE_FILE).gz; do \
+           if test -f $$file; then \
