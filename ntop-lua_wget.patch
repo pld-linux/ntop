@@ -1,9 +1,6 @@
---- ntop-3.3.10.org/configure.in	2009-08-05 20:23:00.296160799 +0530
-+++ ntop-3.3.10/configure.in	2009-08-05 20:34:16.656165445 +0530
-@@ -1644,25 +1644,8 @@
-   fi
- fi
- 
+--- ntop-4.0/misc/configure.in.lua~	2009-08-11 10:24:46.000000000 +0200
++++ ntop-4.0/misc/configure.in.lua	2010-07-20 09:04:41.581951627 +0200
+@@ -1,21 +1,4 @@
 -dnl>
 -dnl> Lua - http://www.lua.org
 -dnl>
@@ -27,4 +24,3 @@
 +INCS="${INCS} -I/usr/include/lua51"
  AC_DEFINE_UNQUOTED(HAVE_LUA, 1, [LUA is supported])
  
- dnl>

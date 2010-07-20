@@ -1,6 +1,7 @@
 # TODO
 # - see if it uses system files for ettercap and geoip, ieee-oui files we did not package
 # - see where plugins are needed in plugin dir or in system dir
+# - fix init script (--redirdfs is bogus?)
 #
 # Conditional build:
 %bcond_with	mysql	# with mysql support
@@ -8,22 +9,22 @@
 Summary:	Network monitoring tool
 Summary(pl.UTF-8):	Narzędzie do monitorowania sieci
 Name:		ntop
-Version:	3.3.10
-Release:	5
-License:	GPL
+Version:	4.0
+Release:	0.1
+License:	GPL v3+
 Group:		Networking
 Source0:	http://downloads.sourceforge.net/ntop/%{name}-%{version}.tar.gz
-# Source0-md5:	6e2ffa90d5f935c8f03d88a5dd19a866
+# Source0-md5:	c5fc7863d8ba08654ef7b4d88ff860f4
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Patch0:		%{name}-conf.patch
 Patch1:		%{name}-config.patch
 Patch2:		%{name}-am.patch
 Patch3:		%{name}-lua_wget.patch
-Patch4:		%{name}-geoip.patch
-Patch5:		%{name}-http_c.patch
-Patch6:		%{name}-running-user.patch
-Patch7:		ieee-oui.patch
+Patch4:		%{name}-http_c.patch
+Patch5:		%{name}-running-user.patch
+Patch6:		ieee-oui.patch
+Patch7:		%{name}-install.patch
 URL:		http://www.ntop.org/
 BuildRequires:	GeoIP-devel
 BuildRequires:	autoconf
@@ -33,6 +34,7 @@ BuildRequires:	gd-devel >= 2.0.1
 BuildRequires:	gdbm-devel >= 1.8.3
 BuildRequires:	gdome2-devel
 BuildRequires:	glib2-devel
+BuildRequires:	libdbi-devel
 BuildRequires:	libevent-devel >= 1.4.0
 BuildRequires:	libpcap-devel
 BuildRequires:	libpng-devel
@@ -58,10 +60,10 @@ Requires(pre):	/usr/sbin/groupadd
 Requires(pre):	/usr/sbin/useradd
 Requires:	rc-scripts >= 0.4.2.8
 # maybe is optional, needs checking
+Requires:	ieee-oui
 Suggests:	GeoIP-db-City
 Suggests:	GeoIP-db-IPASNum
 Suggests:	ettercap
-Requires:	ieee-oui
 Provides:	group(ntop)
 Provides:	user(ntop)
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -86,8 +88,6 @@ robi to popularna uniksowa komenda top.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
-
-rm oui.txt.gz
 
 # taken from autogen.sh
 cp -f %{_aclocaldir}/libtool.m4 libtool.m4.in
