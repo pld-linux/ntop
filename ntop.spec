@@ -9,12 +9,12 @@
 Summary:	Network monitoring tool
 Summary(pl.UTF-8):	Narzędzie do monitorowania sieci
 Name:		ntop
-Version:	4.0
+Version:	4.0.1
 Release:	0.1
 License:	GPL v3+
 Group:		Networking
 Source0:	http://downloads.sourceforge.net/ntop/%{name}-%{version}.tar.gz
-# Source0-md5:	c5fc7863d8ba08654ef7b4d88ff860f4
+# Source0-md5:	22f916327f0e92d8c470aaadcb80d84d
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Patch0:		%{name}-conf.patch
@@ -58,8 +58,8 @@ Requires(pre):	/bin/id
 Requires(pre):	/usr/bin/getgid
 Requires(pre):	/usr/sbin/groupadd
 Requires(pre):	/usr/sbin/useradd
-Requires:	rc-scripts >= 0.4.2.8
 Requires:	ieee-oui
+Requires:	rc-scripts >= 0.4.2.8
 # maybe is optional, needs checking
 Suggests:	GeoIP-db-City
 Suggests:	GeoIP-db-IPASNum
