@@ -27,6 +27,7 @@ Patch4:		%{name}-http_c.patch
 Patch5:		%{name}-running-user.patch
 Patch6:		ieee-oui.patch
 Patch7:		%{name}-install.patch
+Patch8:		%{name}-no_wget_etter.patch
 URL:		http://www.ntop.org/
 BuildRequires:	GeoIP-devel
 BuildRequires:	autoconf
@@ -90,6 +91,7 @@ robi to popularna uniksowa komenda top.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 
 gzip -9c %{SOURCE3} >etter.finger.os.gz
 
