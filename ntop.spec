@@ -17,6 +17,8 @@ Source0:	http://downloads.sourceforge.net/ntop/%{name}-%{version}.tgz
 # Source0-md5:	f064393a2090e5bda102cd49c2707789
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
+# http://ettercap.cvs.sourceforge.net/ettercap/ettercap_ng/share/etter.finger.os?rev=HEAD
+Source3:	etter.finger.os
 Patch0:		%{name}-conf.patch
 Patch1:		%{name}-config.patch
 Patch2:		%{name}-am.patch
@@ -88,6 +90,8 @@ robi to popularna uniksowa komenda top.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+
+gzip -9c %{SOURCE3} >etter.finger.os.gz
 
 # taken from autogen.sh
 cp -f %{_aclocaldir}/libtool.m4 libtool.m4.in

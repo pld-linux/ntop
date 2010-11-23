@@ -1,0 +1,11 @@
+--- /home/users/baggins/devel/PLD/rpm/BUILD/ntop-4.0.3/Makefile.am~	2010-11-24 00:21:43.603982997 +0100
++++ /home/users/baggins/devel/PLD/rpm/BUILD/ntop-4.0.3/Makefile.am	2010-11-24 00:22:07.270982990 +0100
+@@ -339,7 +339,7 @@
+ install-selinux-policy:
+ 	chcon -t textrel_shlib_t $(DESTDIR)$(libdir)/*ntop*.so
+ 
+-install-data-local: ntop.txt ntop.html faq.html dnetter
++install-data-local: ntop.txt ntop.html faq.html
+ 	@$(top_srcdir)/mkinstalldirs $(DESTDIR)/$(libdir)/plugins;
+ 	@if ! test -d $(DESTDIR)/$(datadir)/ntop; then \
+ 	  $(top_srcdir)/mkinstalldirs $(DESTDIR)/$(datadir)/ntop; \
