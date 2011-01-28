@@ -50,6 +50,7 @@ BuildRequires:	net-snmp-devel
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	perl-devel
 BuildRequires:	readline-devel >= 4.2
+BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRequires:	rrdtool-devel >= 1.1.0
 BuildRequires:	zlib-devel
