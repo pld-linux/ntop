@@ -1,7 +1,6 @@
 # TODO
 # - see if it uses system files for ettercap and geoip, ieee-oui files we did not package
 # - see where plugins are needed in plugin dir or in system dir
-# - fix init script (--redirdfs is bogus?)
 #
 # Conditional build:
 %bcond_with	mysql	# with mysql support
@@ -10,7 +9,7 @@ Summary:	Network monitoring tool
 Summary(pl.UTF-8):	Narzędzie do monitorowania sieci
 Name:		ntop
 Version:	4.0.3
-Release:	1
+Release:	2
 License:	GPL v3+
 Group:		Networking
 Source0:	http://downloads.sourceforge.net/ntop/%{name}-%{version}.tgz
