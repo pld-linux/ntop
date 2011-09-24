@@ -8,12 +8,12 @@
 Summary:	Network monitoring tool
 Summary(pl.UTF-8):	Narzędzie do monitorowania sieci
 Name:		ntop
-Version:	4.0.3
-Release:	3
+Version:	4.1.0
+Release:	1
 License:	GPL v3+
 Group:		Networking
-Source0:	http://downloads.sourceforge.net/ntop/%{name}-%{version}.tgz
-# Source0-md5:	f064393a2090e5bda102cd49c2707789
+Source0:	http://downloads.sourceforge.net/ntop/%{name}-%{version}.tar.gz
+# Source0-md5:	116df99cf548431393991ea15443c52f
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 # http://ettercap.cvs.sourceforge.net/ettercap/ettercap_ng/share/etter.finger.os?rev=HEAD
