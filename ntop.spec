@@ -1,6 +1,11 @@
 # TODO
 # - see if it uses system files for ettercap and geoip, ieee-oui files we did not package
 # - see where plugins are needed in plugin dir or in system dir
+# - unpackaged
+#        /etc/ntop/GeoIPASNum.dat
+#        /etc/ntop/GeoLiteCity.dat
+#        /usr/lib64/libntop.a
+#        /usr/lib64/libntopreport.a
 #
 # Conditional build:
 %bcond_with	mysql	# with mysql support
@@ -52,6 +57,7 @@ BuildRequires:	readline-devel >= 4.2
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRequires:	rrdtool-devel >= 1.1.0
+BuildRequires:	sed >= 4.0
 BuildRequires:	zlib-devel
 Requires(post,postun):	/sbin/ldconfig
 Requires(post,preun):	/sbin/chkconfig
@@ -92,6 +98,11 @@ robi to popularna uniksowa komenda top.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+
+sed -i -e '
+	s/AM_CONFIG_HEADER/AC_CONFIG_HEADERS/
+	s/AM_PROG_CC_STDC/AC_PROG_CC/
+' configure.in
 
 gzip -9c %{SOURCE3} >etter.finger.os.gz
 
