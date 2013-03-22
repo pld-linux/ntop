@@ -6,6 +6,7 @@
 #        /etc/ntop/GeoLiteCity.dat
 #        /usr/lib64/libntop.a
 #        /usr/lib64/libntopreport.a
+# NOTE: can read oui.txt.xz if MAKE_WITH_ZLIB enabled
 #
 # Conditional build:
 %bcond_with	mysql	# with mysql support
@@ -14,7 +15,7 @@ Summary:	Network monitoring tool
 Summary(pl.UTF-8):	Narzędzie do monitorowania sieci
 Name:		ntop
 Version:	4.1.0
-Release:	1
+Release:	2
 License:	GPL v3+
 Group:		Networking
 Source0:	http://downloads.sourceforge.net/ntop/%{name}-%{version}.tar.gz
@@ -67,7 +68,7 @@ Requires(pre):	/bin/id
 Requires(pre):	/usr/bin/getgid
 Requires(pre):	/usr/sbin/groupadd
 Requires(pre):	/usr/sbin/useradd
-Requires:	ieee-oui
+Requires:	hwdata >= 0.243-2
 Requires:	rc-scripts >= 0.4.2.8
 # maybe is optional, needs checking
 Suggests:	GeoIP-db-City
@@ -102,6 +103,8 @@ robi to popularna uniksowa komenda top.
 sed -i -e '
 	s/AM_CONFIG_HEADER/AC_CONFIG_HEADERS/
 	s/AM_PROG_CC_STDC/AC_PROG_CC/
+
+	/3rd_party\/oui.txt.gz/d
 ' configure.in
 
 gzip -9c %{SOURCE3} >etter.finger.os.gz
@@ -147,7 +150,8 @@ for p in icmpPlugin lastSeenPlugin netflowPlugin cpacketPlugin rrdPlugin sflowPl
 	ln -snf ../../lib$p-%{version}.so $RPM_BUILD_ROOT%{_libdir}/ntop/plugins/$p.so
 done
 
-ln -s %{_datadir}/oui.txt $RPM_BUILD_ROOT%{_sysconfdir}/ntop/oui.txt
+# read by checkForInputFile() scanning various dirs and extensions
+ln -s /lib/hwdata/oui.txt $RPM_BUILD_ROOT%{_sysconfdir}/ntop/oui.txt
 
 # no -devel
 rm -f $RPM_BUILD_ROOT%{_libdir}{,/ntop/plugins}/*.la
