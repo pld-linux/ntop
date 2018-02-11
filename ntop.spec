@@ -14,12 +14,12 @@
 Summary:	Network monitoring tool
 Summary(pl.UTF-8):	Narzędzie do monitorowania sieci
 Name:		ntop
-Version:	4.1.0
-Release:	3
+Version:	5.0.1
+Release:	1
 License:	GPL v3+
 Group:		Networking
 Source0:	http://downloads.sourceforge.net/ntop/%{name}-%{version}.tar.gz
-# Source0-md5:	116df99cf548431393991ea15443c52f
+# Source0-md5:	01710b6925a8a5ffe1a41b8b512ebd69
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 # http://ettercap.cvs.sourceforge.net/ettercap/ettercap_ng/share/etter.finger.os?rev=HEAD
@@ -32,7 +32,7 @@ Patch4:		%{name}-http_c.patch
 Patch5:		%{name}-running-user.patch
 Patch6:		ieee-oui.patch
 Patch7:		%{name}-install.patch
-Patch8:		%{name}-no_wget_etter.patch
+Patch8:		%{name}-rrdtool-1.6.0.patch
 URL:		http://www.ntop.org/
 BuildRequires:	GeoIP-devel
 BuildRequires:	autoconf
@@ -119,6 +119,12 @@ cat acinclude.m4.in libtool.m4.in acinclude.m4.ntop > acinclude.m4
 %{__autoconf}
 %{__autoheader}
 %{__automake}
+
+cd nDPI
+%configure
+%{__make}
+cd ..
+
 # "verified.awk -u" calls require gawk
 %configure \
 	AWK=gawk \

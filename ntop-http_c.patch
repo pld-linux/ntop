@@ -1,21 +1,7 @@
-revision 1.3
-date: 2009/10/10 06:09:31;  author: rakesh;  state: Exp;  lines: +11 -9
-Patch7: ntop-http_c_user.patch for #518264 (CVE-2009-2732)
-----------------------------
-revision 1.2
-date: 2009/08/05 15:25:07;  author: rakesh;  state: dead;  lines: +0 -0
-
- - Updated to 3.3.10, updated geoip patch
- - lua_wget patch to prevent wget lua
- - removed ntop-http_c.patch
-----------------------------
-revision 1.1
-date: 2009/03/17 08:28:30;  author: rakesh;  state: Exp;
-Fixed world-writable access log (#490561)
-
---- ntop-3.3.10.org/http.c	2009-09-13 14:23:48.895204786 +0530
-+++ ntop-3.3.10/http.c	2009-09-13 14:45:35.603204376 +0530
-@@ -3439,6 +3439,9 @@
+diff -urN ntop-5.0.orig/httpd.c ntop-5.0/httpd.c
+--- ntop-5.0.orig/httpd.c	2012-07-18 01:14:33.000000000 +0200
++++ ntop-5.0/httpd.c	2012-07-20 12:15:57.306231889 +0200
+@@ -3321,6 +3321,9 @@
      strncpy(thePw, &outBuffer[i+1], thePwLen-1)[thePwLen-1] = '\0';
    }
  
