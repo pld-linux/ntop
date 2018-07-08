@@ -1,0 +1,69 @@
+--- ntop-5.0.1/configure.in~	2018-07-08 20:00:49.000000000 +0200
++++ ntop-5.0.1/configure.in	2018-07-08 20:01:39.699063382 +0200
+@@ -56,7 +56,7 @@
+ dnl> generate the config header
+ dnl>
+ umask 002
+-AM_CONFIG_HEADER(config.h)
++AC_CONFIG_HEADERS(config.h)
+ 
+ HAS_ERROR=
+ HAS_WARNING=
+@@ -133,7 +133,7 @@
+ 
+ # Set constants and defaults
+ SO_VERSION_PATCH=
+-MAKE_SHARED_LIBRARY_PARM="-shared -flat_namespace"
++MAKE_SHARED_LIBRARY_PARM="-shared"
+ 
+ AS=
+ CCLD=
+@@ -324,7 +324,7 @@
+ echo
+ echo "Checking C compiler program and features..."
+ echo
+-AM_PROG_CC_STDC
++AC_PROG_CC
+ if test ".${ac_cv_prog_cc_stdc}" = ".no"; then
+     echo
+     echo "*******************************************************************"
+@@ -1769,7 +1769,6 @@
+ exit 1
+ fi
+ 
+-cp "3rd_party/oui.txt.gz" .
+ cp "3rd_party/specialMAC.txt.gz" .
+ 
+ if test -d ./configureextra; then
+--- ntop-5.0.1/plugins/Makefile.am.orig	2012-02-02 12:17:12.000000000 +0100
++++ ntop-5.0.1/plugins/Makefile.am	2018-07-08 20:14:16.472513676 +0200
+@@ -70,7 +70,8 @@
+ #
+ 
+ 
+-.libs/libnetflowPlugin.so@SO_VERSION_PATCH@:
++.libs/libnetflowPlugin.so@SO_VERSION_PATCH@: netflowPlugin.o
++	mkdir -p .libs
+ 	@if test -f libnetflowPlugin_la-netflowPlugin.o; then \
+ 	$(CC) @MAKE_SHARED_LIBRARY_PARM@ -o .libs/libnetflowPlugin.so@SO_VERSION_PATCH@ libnetflowPlugin_la-netflowPlugin.o; \
+ 	else \
+@@ -82,7 +82,8 @@
+ 
+ ###############
+ 
+-.libs/librrdPlugin.so@SO_VERSION_PATCH@:
++.libs/librrdPlugin.so@SO_VERSION_PATCH@: rrdPlugin.o
++	mkdir -p .libs
+ 	@if test -f librrdPlugin_la-rrdPlugin.o; then \
+ 	$(CC) @MAKE_SHARED_LIBRARY_PARM@ -o .libs/librrdPlugin.so@SO_VERSION_PATCH@ librrdPlugin_la-rrdPlugin.o; \
+ 	else \
+@@ -94,7 +94,8 @@
+ 
+ ###############
+ 
+-.libs/libsflowPlugin.so@SO_VERSION_PATCH@:
++.libs/libsflowPlugin.so@SO_VERSION_PATCH@: sflowPlugin.o
++	mkdir -p .libs
+ 	@if test -f libsflowPlugin_la-sflowPlugin.o; then \
+ 	$(CC) @MAKE_SHARED_LIBRARY_PARM@ -o .libs/libsflowPlugin.so@SO_VERSION_PATCH@ libsflowPlugin_la-sflowPlugin.o; \
+ 	else \

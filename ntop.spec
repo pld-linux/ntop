@@ -15,7 +15,7 @@ Summary:	Network monitoring tool
 Summary(pl.UTF-8):	Narzędzie do monitorowania sieci
 Name:		ntop
 Version:	5.0.1
-Release:	2
+Release:	3
 License:	GPL v3+
 Group:		Networking
 Source0:	http://downloads.sourceforge.net/ntop/%{name}-%{version}.tar.gz
@@ -33,6 +33,7 @@ Patch5:		%{name}-running-user.patch
 Patch6:		ieee-oui.patch
 Patch7:		%{name}-install.patch
 Patch8:		%{name}-rrdtool-1.6.0.patch
+Patch9:		ac-am.patch
 URL:		http://www.ntop.org/
 BuildRequires:	GeoIP-devel
 BuildRequires:	autoconf
@@ -99,13 +100,7 @@ robi to popularna uniksowa komenda top.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
-
-sed -i -e '
-	s/AM_CONFIG_HEADER/AC_CONFIG_HEADERS/
-	s/AM_PROG_CC_STDC/AC_PROG_CC/
-
-	/3rd_party\/oui.txt.gz/d
-' configure.in
+%patch9 -p1
 
 gzip -9c %{SOURCE3} >etter.finger.os.gz
 
