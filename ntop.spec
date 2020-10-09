@@ -7,15 +7,12 @@
 #        /usr/lib64/libntop.a
 #        /usr/lib64/libntopreport.a
 # NOTE: can read oui.txt.xz if MAKE_WITH_ZLIB enabled
-#
-# Conditional build:
-%bcond_with	mysql	# with mysql support
 
 Summary:	Network monitoring tool
 Summary(pl.UTF-8):	Narzędzie do monitorowania sieci
 Name:		ntop
 Version:	5.0.1
-Release:	6
+Release:	7
 License:	GPL v3+
 Group:		Networking
 Source0:	http://downloads.sourceforge.net/ntop/%{name}-%{version}.tar.gz
@@ -36,26 +33,15 @@ Patch8:		%{name}-rrdtool-1.6.0.patch
 Patch9:		ac-am.patch
 URL:		http://www.ntop.org/
 BuildRequires:	GeoIP-devel
-BuildRequires:	autoconf
+BuildRequires:	autoconf >= 2.52
 BuildRequires:	automake >= 1.6
 BuildRequires:	gawk
-BuildRequires:	gd-devel >= 2.0.1
 BuildRequires:	gdbm-devel >= 1.8.3
-BuildRequires:	gdome2-devel
-BuildRequires:	glib2-devel
-BuildRequires:	libdbi-devel
-BuildRequires:	libevent-devel >= 1.4.0
 BuildRequires:	libpcap-devel
-BuildRequires:	libpng-devel
-BuildRequires:	libtiff-devel
 BuildRequires:	libtool
-BuildRequires:	libwrap-devel
-BuildRequires:	lua51-devel
-BuildRequires:	ncurses-devel >= 5.2
 BuildRequires:	net-snmp-devel
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	perl-devel
-BuildRequires:	readline-devel >= 4.2
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRequires:	rrdtool-devel >= 1.1.0
@@ -108,6 +94,8 @@ gzip -9c %{SOURCE3} >etter.finger.os.gz
 cp -f %{_aclocaldir}/libtool.m4 libtool.m4.in
 cat acinclude.m4.in libtool.m4.in acinclude.m4.ntop > acinclude.m4
 
+%{__sed} -i -e '1s,/usr/bin/env python$,%{__python},' python/sankey.py
+
 %build
 %{__libtoolize}
 %{__aclocal}
@@ -126,9 +114,7 @@ cd ..
 	--disable-static \
 	--with-gnu-ld \
 	--with-ossl-root=%{_prefix} \
-	--with-tcpwrap \
-	--enable-snmp \
-	%{?with_mysql:--enable-mysql}
+	--enable-snmp
 
 %{__make}
 
