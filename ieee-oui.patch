@@ -1,8 +1,9 @@
---- ntop-3.3.10/Makefile.am~	2010-04-07 01:05:52.000000000 +0300
-+++ ntop-3.3.10/Makefile.am	2010-04-07 09:18:06.085523903 +0300
-@@ -77,9 +77,12 @@
- 	GeoIPASNum.dat \
- 	GeoLiteCity.dat
+diff -urNp -x '*.orig' ntop-5.0.1.org/Makefile.am ntop-5.0.1/Makefile.am
+--- ntop-5.0.1.org/Makefile.am	2021-10-05 21:40:21.302499543 +0200
++++ ntop-5.0.1/Makefile.am	2021-10-05 21:40:21.552501388 +0200
+@@ -64,9 +64,12 @@ ETTER_PASSIVE = $(ETTER_PASSIVE_FILE).gz
+ ETTER_PASSIVE_DOWNLOAD_FROM = "http://ettercap.cvs.sourceforge.net/ettercap/ettercap_ng/share"
+ ETTER_PASSIVE_DOWNLOAD_PARMS = "rev=HEAD"
  
 +OUI_FILES = \
 +	oui.txt.gz
@@ -12,5 +13,5 @@
 -           oui.txt.gz \
 +           $(OUI_FILES) \
             specialMAC.txt.gz \
- 		   $(GEOIP_FILES)
- 
+ 	   GeoIPASNum.dat \
+ 	   GeoLiteCity.dat

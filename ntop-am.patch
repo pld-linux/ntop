@@ -1,17 +1,19 @@
---- ntop-3.2/Makefile.am~	2006-01-02 02:50:33.000000000 +0200
-+++ ntop-3.2/Makefile.am	2006-01-02 02:50:35.000000000 +0200
-@@ -97,7 +97,7 @@
+diff -urNp -x '*.orig' ntop-5.0.1.org/Makefile.am ntop-5.0.1/Makefile.am
+--- ntop-5.0.1.org/Makefile.am	2012-08-02 09:39:52.000000000 +0200
++++ ntop-5.0.1/Makefile.am	2021-10-05 21:40:19.232484258 +0200
+@@ -105,7 +105,7 @@ DOCSFILES      = `cat docs/FILES`
  #
  # The Games
  #
 -bin_PROGRAMS   = ntop
 +sbin_PROGRAMS   = ntop
  EXTRA_PROGRAMS = ntops
- bin_SCRIPTS    = 
+ bin_SCRIPTS    =
  
---- ntop-3.2/configure.in~	2006-01-02 02:54:22.000000000 +0200
-+++ ntop-3.2/configure.in	2006-01-02 02:58:04.000000000 +0200
-@@ -61,7 +61,7 @@
+diff -urNp -x '*.orig' ntop-5.0.1.org/configure.in ntop-5.0.1/configure.in
+--- ntop-5.0.1.org/configure.in	2012-08-13 09:35:26.000000000 +0200
++++ ntop-5.0.1/configure.in	2021-10-05 21:40:19.232484258 +0200
+@@ -61,7 +61,7 @@ AM_CONFIG_HEADER(config.h)
  HAS_ERROR=
  HAS_WARNING=
  
@@ -20,4 +22,3 @@
  
  echo
  echo "Welcome to $PACKAGE_NAME, Version $PACKAGE_VERSION $NTOP_VERSION_EXTRA"
-
